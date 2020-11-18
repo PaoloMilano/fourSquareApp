@@ -1,2 +1,4 @@
+include ':repository'
+include ':utils_test_android'
 include ':app'
 rootProject.name = "FourSquareApp"

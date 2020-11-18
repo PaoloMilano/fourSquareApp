@@ -1,0 +1,18 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.0"
+}
+
+dependencies {
+    api "com.google.dagger:hilt-android-testing:$hilt_version"
+    api 'androidx.test.ext:junit-ktx:1.1.2'
+    api 'androidx.test.ext:junit:1.1.2'
+    api 'androidx.test.espresso:espresso-core:3.3.0'
+    api 'androidx.appcompat:appcompat:1.2.0'
+}
