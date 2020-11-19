@@ -1,6 +1,5 @@
 package com.magicbluepenguin.foursquareapp
 
-
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.hasFocus
@@ -8,9 +7,15 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.ext.junit.rules.activityScenarioRule
+import com.magicbluepenguin.foursquareapp.application.ApiConfigModule
+import com.magicbluepenguin.repository.repositories.LocationSearchRepository
 import com.magicbluepenguin.utils.test.android.typeSearchViewText
+import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
+import io.mockk.coEvery
+import io.mockk.mockk
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.junit.Rule
@@ -18,7 +23,14 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 
 @HiltAndroidTest
+@UninstallModules(ApiConfigModule::class)
 internal class LocationFragmentTest {
+
+    @BindValue
+    @JvmField
+    val mockLocationSearchRepository: LocationSearchRepository = mockk {
+        coEvery { findVenuesNearLocation(any()) } answers { emptyList() }
+    }
 
     @get:Rule
     val chain = RuleChain

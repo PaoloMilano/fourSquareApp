@@ -1,3 +1,5 @@
+include ':utils_test'
+include ':utils'
 include ':repository'
 include ':utils_test_android'
 include ':app'

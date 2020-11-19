@@ -1,4 +1,4 @@
-package com.magicbluepenguin.foursquareapp.extensions
+package com.magicbluepenguin.utils.extensions
 
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity

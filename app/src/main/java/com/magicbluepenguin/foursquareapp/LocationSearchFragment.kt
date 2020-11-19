@@ -10,7 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.magicbluepenguin.foursquareapp.databinding.FragmentLocationSearchBinding
-import com.magicbluepenguin.foursquareapp.extensions.setSupportActionBar
+import com.magicbluepenguin.utils.extensions.setSupportActionBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -49,12 +49,14 @@ internal class LocationSearchFragment : Fragment() {
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     clearFocus()
-                    viewModel.searchQuery = query
+                    viewModel.submitSearch()
                     return true
                 }
 
-                override fun onQueryTextChange(newText: String?) = true
-
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    viewModel.searchQuery = query?.toString()
+                    return true
+                }
             })
         }
     }
