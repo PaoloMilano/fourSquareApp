@@ -1,9 +1,10 @@
-package com.magicbluepenguin.repository.api.location
+package com.magicbluepenguin.repository.api.venuesearch
 
+import com.magicbluepenguin.repository.model.VenueSearchApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-internal interface LocationApi {
+internal interface VenueSearchApi {
 
     @GET("https://api.foursquare.com/v2/venues/search")
     suspend fun listVenues(
@@ -19,5 +20,5 @@ internal interface LocationApi {
         limit: Int,
         @Query("v")
         version: String
-    ): LocationSearchApiResponse
+    ): VenueSearchApiResponse
 }

@@ -1,3 +1,0 @@
-package com.magicbluepenguin.repository.repositories
-
-class RetrofitLocationSearchRepositoryTest

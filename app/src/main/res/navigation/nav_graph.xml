@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.magicbluepenguin.foursquareapp.LocationSearchFragment"
+        android:name="com.magicbluepenguin.foursquareapp.venuesearch.list.VenueSearchFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_location_search">
+        tools:layout="@layout/fragment_venue_search">
         <action
             android:id="@+id/show_detail"
             app:destination="@id/SecondFragment"
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.magicbluepenguin.foursquareapp.SecondFragment"
+        android:name="com.magicbluepenguin.foursquareapp.venuesearch.detail.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second" />
 </navigation>

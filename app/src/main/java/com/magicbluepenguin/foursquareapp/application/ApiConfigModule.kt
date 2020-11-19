@@ -1,11 +1,13 @@
 package com.magicbluepenguin.foursquareapp.application
 
-import com.magicbluepenguin.repository.repositories.LocationSearchRepository
-import com.magicbluepenguin.repository.repositories.RetrofitLocationSearchRepository
+import android.content.Context
+import com.magicbluepenguin.repository.repositories.RetrofitVenueSearchRepository
+import com.magicbluepenguin.repository.repositories.VenueSearchRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Module
 @InstallIn(ApplicationComponent::class)
@@ -16,5 +18,6 @@ object ApiConfigModule {
     val clientSecret = "1M4K24DIQDK0HA3SG0N3HBQVHBJEG14UPN5OANYMWSN533NB"
 
     @Provides
-    fun provideSearchRepository(): LocationSearchRepository = RetrofitLocationSearchRepository(baseApiUrl, clientKey, clientSecret)
+    fun provideVenueSearchRepository(@ApplicationContext context: Context): VenueSearchRepository =
+        RetrofitVenueSearchRepository(context, baseApiUrl, clientKey, clientSecret)
 }

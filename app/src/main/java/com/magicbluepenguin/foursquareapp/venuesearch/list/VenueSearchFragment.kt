@@ -1,4 +1,4 @@
-package com.magicbluepenguin.foursquareapp
+package com.magicbluepenguin.foursquareapp.venuesearch.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,24 +9,25 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.magicbluepenguin.foursquareapp.databinding.FragmentLocationSearchBinding
+import com.magicbluepenguin.foursquareapp.R
+import com.magicbluepenguin.foursquareapp.databinding.FragmentVenueSearchBinding
 import com.magicbluepenguin.utils.extensions.setSupportActionBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-internal class LocationSearchFragment : Fragment() {
+internal class VenueSearchFragment : Fragment() {
 
     private val binding get() = _binding!!
-    private var _binding: FragmentLocationSearchBinding? = null
+    private var _binding: FragmentVenueSearchBinding? = null
 
-    private val viewModel by viewModels<LocationSearchViewModel>()
+    private val viewModel by viewModels<VenueSearchViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentLocationSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentVenueSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 

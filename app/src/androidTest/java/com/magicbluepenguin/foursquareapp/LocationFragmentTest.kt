@@ -8,7 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.ext.junit.rules.activityScenarioRule
 import com.magicbluepenguin.foursquareapp.application.ApiConfigModule
-import com.magicbluepenguin.repository.repositories.LocationSearchRepository
+import com.magicbluepenguin.repository.repositories.VenueSearchRepository
 import com.magicbluepenguin.utils.test.android.typeSearchViewText
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -28,7 +28,7 @@ internal class LocationFragmentTest {
 
     @BindValue
     @JvmField
-    val mockLocationSearchRepository: LocationSearchRepository = mockk {
+    val mockLocationSearchRepository: VenueSearchRepository = mockk {
         coEvery { findVenuesNearLocation(any()) } answers { emptyList() }
     }
 
