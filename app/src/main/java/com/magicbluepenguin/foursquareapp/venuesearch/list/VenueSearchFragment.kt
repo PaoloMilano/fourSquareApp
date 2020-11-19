@@ -7,8 +7,11 @@ import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.magicbluepenguin.foursquareapp.R
 import com.magicbluepenguin.foursquareapp.databinding.FragmentVenueSearchBinding
 import com.magicbluepenguin.utils.extensions.setSupportActionBar
@@ -35,13 +38,31 @@ internal class VenueSearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         setSupportActionBar(binding.toolbar)
+
+
+        val venueListAdapter = VenueListAdapter()
+
+        binding.searchResultsRecyclerView.apply {
+            adapter = venueListAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).apply {
+                ContextCompat.getDrawable(requireActivity(), R.drawable.recyclervirew_divider)
+                    ?.let {
+                        setDrawable(it)
+                    }
+            })
+        }
+
+        viewModel.venuesLiveData.observe(viewLifecycleOwner) {
+            venueListAdapter.updateData(it)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.location_search_menu, menu)
         (menu.findItem(R.id.search).actionView as SearchView).apply {
 
-            // Slight hack to ensure that the SearchView takes up the entire width of the toolbar
+            // Known hack to ensure that the SearchView takes up the entire width of the toolbar
             maxWidth = Integer.MAX_VALUE
 
             setIconifiedByDefault(false)

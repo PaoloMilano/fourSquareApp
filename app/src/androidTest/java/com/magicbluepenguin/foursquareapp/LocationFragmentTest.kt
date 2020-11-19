@@ -6,8 +6,11 @@ import androidx.test.espresso.matcher.ViewMatchers.hasFocus
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.activityScenarioRule
 import com.magicbluepenguin.foursquareapp.application.ApiConfigModule
+import com.magicbluepenguin.repository.model.Venue
+import com.magicbluepenguin.repository.model.VenueAddress
 import com.magicbluepenguin.repository.repositories.VenueSearchRepository
 import com.magicbluepenguin.utils.test.android.typeSearchViewText
 import dagger.hilt.android.testing.BindValue
@@ -53,5 +56,39 @@ internal class LocationFragmentTest {
         )
 
         searchViewInteraction.check(matches(not(hasFocus())))
+    }
+
+    @Test
+    fun list_item_displays_title_and_formatted_adress() {
+        val venueName = "Cool Venue"
+        val venueAddress = listOf("Address Line 1", "Address Line 1", "Address Line 1")
+
+        coEvery { mockLocationSearchRepository.findVenuesNearLocation(any()) } answers {
+            listOf(Venue("abc", venueName, VenueAddress(venueAddress)))
+        }
+
+        onView(
+            allOf(
+                withId(R.id.search),
+                withParent(withParent(withId(R.id.toolbar))),
+                isDisplayed(),
+            )
+        ).perform(
+            typeSearchViewText("Randomcity", true),
+        )
+
+        onView(
+            allOf(
+                withId(R.id.venue_name),
+                withText(venueName)
+            )
+        ).check(matches(isDisplayed()))
+
+        onView(
+            allOf(
+                withId(R.id.venue_location),
+                withText(venueAddress.joinToString(separator = "\n")),
+            )
+        ).check(matches(isDisplayed()))
     }
 }
