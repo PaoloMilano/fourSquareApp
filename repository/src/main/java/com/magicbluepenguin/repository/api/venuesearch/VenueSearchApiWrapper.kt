@@ -6,5 +6,5 @@ internal class VenueSearchApiWrapper(private val clientId: String, private val c
         radius: Int = 1000,
         limit: Int = 10,
         version: String = "20201118"
-    ) = locationApi.listVenues(clientId, clientSecret, location, radius, limit, version).response.venues
+    ) = locationApi.listVenues(clientId, clientSecret, location, radius, limit, version)
 }

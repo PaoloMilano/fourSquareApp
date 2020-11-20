@@ -20,15 +20,7 @@ class RetrofitProviderTest {
         val location = "Amsterdam"
 
         val mockLocationApi = mockk<VenueSearchApi>(relaxed = true) {
-            coEvery { listVenues(any(), any(), any(), any(), any(), any()) } answers {
-                mockk {
-                    every { response } answers {
-                        mockk {
-                            every { venues } answers { emptyList() }
-                        }
-                    }
-                }
-            }
+            coEvery { listVenues(any(), any(), any(), any(), any(), any()) } answers { emptyList() }
         }
         val mockRetrofit = mockk<Retrofit>(relaxed = true) {
             every { create(VenueSearchApi::class.java) } answers { mockLocationApi }

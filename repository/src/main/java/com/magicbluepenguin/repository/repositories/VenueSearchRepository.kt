@@ -3,8 +3,10 @@ package com.magicbluepenguin.repository.repositories
 import android.content.Context
 import androidx.room.Room
 import com.magicbluepenguin.repository.api.RetrofitServiceWrapper
+import com.magicbluepenguin.repository.api.venuesearch.VenueMoshiAdapter
 import com.magicbluepenguin.repository.cache.VenueSearchDatabase
 import com.magicbluepenguin.repository.model.Venue
+import com.squareup.moshi.Moshi
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -30,13 +32,19 @@ class RetrofitVenueSearchRepository(
     }
 
     companion object {
-        internal fun getRetrofitServiceWrapperRetrofitServiceWrapper(baseUrl: String, clientKey: String, clientSecret: String) =
-            RetrofitServiceWrapper(
+        internal fun getRetrofitServiceWrapperRetrofitServiceWrapper(
+            baseUrl: String,
+            clientKey: String,
+            clientSecret: String
+        ): RetrofitServiceWrapper {
+            val moshi = Moshi.Builder().add(VenueMoshiAdapter()).build()
+            return RetrofitServiceWrapper(
                 Retrofit.Builder()
-                    .addConverterFactory(MoshiConverterFactory.create())
+                    .addConverterFactory(MoshiConverterFactory.create(moshi))
                     .baseUrl(baseUrl)
                     .build(), clientKey, clientSecret
             )
+        }
 
         internal fun getVenueSearchDao(context: Context) = Room.databaseBuilder(context, VenueSearchDatabase::class.java, "RetrofitVenueSearchDB")
             .build()

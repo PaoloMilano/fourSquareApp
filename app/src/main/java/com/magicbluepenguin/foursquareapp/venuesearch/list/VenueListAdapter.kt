@@ -30,6 +30,6 @@ internal class VenueListViewHolder(private val viewBinding: ViewHolderVenueItemB
 
     fun bind(venue: Venue) {
         viewBinding.venueName.text = venue.name
-        viewBinding.venueLocation.text = venue.location.formattedAddress.joinToString(separator = "\n")
+        viewBinding.venueLocation.text = venue.location
     }
 }

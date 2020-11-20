@@ -10,7 +10,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.activityScenarioRule
 import com.magicbluepenguin.foursquareapp.application.ApiConfigModule
 import com.magicbluepenguin.repository.model.Venue
-import com.magicbluepenguin.repository.model.VenueAddress
 import com.magicbluepenguin.repository.repositories.VenueSearchRepository
 import com.magicbluepenguin.utils.test.android.typeSearchViewText
 import dagger.hilt.android.testing.BindValue
@@ -61,10 +60,10 @@ internal class LocationFragmentTest {
     @Test
     fun list_item_displays_title_and_formatted_adress() {
         val venueName = "Cool Venue"
-        val venueAddress = listOf("Address Line 1", "Address Line 1", "Address Line 1")
+        val venueAddress = "Address Line 1\nAddress Line 1\nAddress Line 1"
 
         coEvery { mockLocationSearchRepository.findVenuesNearLocation(any()) } answers {
-            listOf(Venue("abc", venueName, VenueAddress(venueAddress)))
+            listOf(Venue("abc", venueName, venueAddress))
         }
 
         onView(
@@ -87,7 +86,7 @@ internal class LocationFragmentTest {
         onView(
             allOf(
                 withId(R.id.venue_location),
-                withText(venueAddress.joinToString(separator = "\n")),
+                withText(venueAddress),
             )
         ).check(matches(isDisplayed()))
     }

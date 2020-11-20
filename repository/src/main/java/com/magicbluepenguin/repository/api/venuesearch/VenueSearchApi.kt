@@ -1,12 +1,12 @@
 package com.magicbluepenguin.repository.api.venuesearch
 
-import com.magicbluepenguin.repository.model.VenueSearchApiResponse
+import com.magicbluepenguin.repository.model.Venue
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 internal interface VenueSearchApi {
 
-    @GET("https://api.foursquare.com/v2/venues/search")
+    @GET("v2/venues/search")
     suspend fun listVenues(
         @Query("client_id")
         clientId: String,
@@ -20,5 +20,5 @@ internal interface VenueSearchApi {
         limit: Int,
         @Query("v")
         version: String
-    ): VenueSearchApiResponse
+    ): List<Venue>
 }
