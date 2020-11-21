@@ -1,6 +1,6 @@
 package com.magicbluepenguin.repository.api.venuesearch.adapters
 
-import com.magicbluepenguin.repository.model.SizeablePhotos
+import com.magicbluepenguin.repository.model.SizablePhoto
 import com.magicbluepenguin.repository.model.VenueDetail
 import com.squareup.moshi.FromJson
 
@@ -25,14 +25,15 @@ fun Map<String, Any?>.toVenueDetails(): VenueDetail {
     val address = toLocation().toFormattedAddress()
     val phoneNumber = toFormattedPhoneNumber()
     val photos = toSizeablePhotos()
-    return VenueDetail(venueId, venueName, description, SizeablePhotos(photos), phoneNumber, address, rating)
+    return VenueDetail(venueId, venueName, description, photos, phoneNumber, address, rating)
 }
 
-private fun Map<String, Any?>.toSizeablePhotos(): List<String> {
+private fun Map<String, Any?>.toSizeablePhotos(): List<SizablePhoto> {
     fun Map<String, Any?>.toPhotosObject() = this["photos"] as? Map<String, Any?>
     fun Map<String, Any?>.toGroupsObject() = this["groups"] as? List<Map<String, Any?>>
     fun List<Map<String, Any?>>.toItemsObject() = map { it["items"] as? List<Map<String, Any?>> }
     fun List<Map<String, Any?>>.toPhotoUrls() = map { "${it["prefix"]}%dx%d${it["suffix"]}" }
-    return toPhotosObject()?.toGroupsObject()?.toItemsObject()?.flatMap { it?.toPhotoUrls() ?: emptyList() } ?: emptyList()
+    val urlList = toPhotosObject()?.toGroupsObject()?.toItemsObject()?.flatMap { it?.toPhotoUrls() ?: emptyList() } ?: emptyList()
+    return urlList.map { SizablePhoto(it) }
 }
 

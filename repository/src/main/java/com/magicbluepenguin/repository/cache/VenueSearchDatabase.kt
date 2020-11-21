@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import com.magicbluepenguin.repository.model.SizeablePhotos
+import com.magicbluepenguin.repository.model.SizablePhoto
 import com.magicbluepenguin.repository.model.VenueDetail
 import com.magicbluepenguin.repository.model.VenueListItem
 
@@ -21,10 +21,10 @@ class SizeableImageConverter {
     }
 
     @TypeConverter
-    fun fromList(value: SizeablePhotos): String {
-        return value.photosUrls.joinToString(separator = SEPARATOR)
+    fun fromList(value: List<SizablePhoto>): String {
+        return value.map { it.photoUrl }.joinToString(separator = SEPARATOR)
     }
 
     @TypeConverter
-    fun toSizeableImages(data: String) = SizeablePhotos(data.split(SEPARATOR))
+    fun toSizeableImages(data: String) = data.split(SEPARATOR).map { SizablePhoto(it) }
 }

@@ -17,7 +17,7 @@ import androidx.test.runner.lifecycle.Stage
 import com.magicbluepenguin.foursquareapp.application.ApiConfigModule
 import com.magicbluepenguin.foursquareapp.application.MainActivity
 import com.magicbluepenguin.foursquareapp.venuesearch.detail.VenueDetailFragment
-import com.magicbluepenguin.repository.model.SizeablePhotos
+import com.magicbluepenguin.repository.model.SizablePhotos
 import com.magicbluepenguin.repository.model.VenueDetail
 import com.magicbluepenguin.repository.model.VenueListItem
 import com.magicbluepenguin.repository.repositories.VenueSearchRepository
@@ -108,7 +108,7 @@ internal class LocationFragmentTest {
                 "",
                 name,
                 description,
-                SizeablePhotos(emptyList()),
+                SizablePhotos(emptyList()),
                 formattedPhoneNumber,
                 address,
                 rating

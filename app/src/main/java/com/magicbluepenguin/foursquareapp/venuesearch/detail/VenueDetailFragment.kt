@@ -43,6 +43,8 @@ internal class VenueDetailFragment : Fragment() {
                 binding.venuePhoneNumber.text = formattedPhoneNumber
                 binding.venueAddress.text = address
                 binding.venueRating.text = requireActivity().resources?.getString(R.string.venue_rating_sf, rating)
+
+                binding.venuePhotoPager.adapter = VenuePhotosAdapter(it.photos)
             }
         }
         viewModel.fetchDetailsForVenue(args.venueId)

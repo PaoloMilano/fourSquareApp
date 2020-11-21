@@ -2,7 +2,7 @@ package com.magicbluepenguin.repository.cache
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.magicbluepenguin.repository.model.SizeablePhotos
+import com.magicbluepenguin.repository.model.SizablePhotos
 import com.magicbluepenguin.repository.model.VenueDetail
 import com.magicbluepenguin.repository.model.VenueListItem
 import junit.framework.Assert
@@ -56,7 +56,7 @@ class VenueSearchDatabaseTest {
             venueId,
             "Venue 1",
             "desc",
-            SizeablePhotos(listOf("photo 1", "Photo 2")),
+            SizablePhotos(listOf("photo 1", "Photo 2")),
             "address 1",
             "06234567",
             3.2
@@ -74,7 +74,7 @@ class VenueSearchDatabaseTest {
             venueId,
             "Venue 1",
             "desc",
-            SizeablePhotos(listOf("photo 1", "Photo 2")),
+            SizablePhotos(listOf("photo 1", "Photo 2")),
             "address 1",
             "06234567",
             3.2
@@ -83,7 +83,7 @@ class VenueSearchDatabaseTest {
             venueId,
             "Venue 123",
             "desc",
-            SizeablePhotos(listOf("photo 123", "Photo 245")),
+            SizablePhotos(listOf("photo 123", "Photo 245")),
             "address 3",
             "062397567",
             4.2

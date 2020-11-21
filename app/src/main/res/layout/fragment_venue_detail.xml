@@ -19,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/venueImagesRecyclerView"
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/venue_photo_pager"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/venue_image_carousel_height"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -28,34 +28,34 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/venuePhoneNumber"
+                android:id="@+id/venue_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_standard"
                 android:layout_marginTop="@dimen/margin_standard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/venueImagesRecyclerView" />
+                app:layout_constraintTop_toBottomOf="@id/venue_images_recyclerView" />
 
             <TextView
-                android:id="@+id/venueAddress"
+                android:id="@+id/venue_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_standard"
                 android:layout_marginTop="@dimen/margin_standard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/venuePhoneNumber" />
+                app:layout_constraintTop_toBottomOf="@id/venue_phone_number" />
 
             <TextView
-                android:id="@+id/venueRating"
+                android:id="@+id/venue_rating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_standard"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/venueAddress" />
+                app:layout_constraintTop_toBottomOf="@id/venue_address" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
