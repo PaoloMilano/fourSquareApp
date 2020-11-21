@@ -11,9 +11,10 @@ internal class VenueListAdapter(private val onVenueClickedListener: (venuedId: S
     private var data = mutableListOf<VenueListItem>()
 
     fun updateData(venueListItems: List<VenueListItem>) {
+        val shouldUpdate = !(data.isEmpty() && venueListItems.isEmpty())
         data.clear()
         data.addAll(venueListItems)
-        notifyDataSetChanged()
+        if (shouldUpdate) notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VenueListViewHolder =

@@ -17,9 +17,9 @@ import androidx.test.runner.lifecycle.Stage
 import com.magicbluepenguin.foursquareapp.application.ApiConfigModule
 import com.magicbluepenguin.foursquareapp.application.MainActivity
 import com.magicbluepenguin.foursquareapp.venuesearch.detail.VenueDetailFragment
-import com.magicbluepenguin.repository.model.SizablePhotos
 import com.magicbluepenguin.repository.model.VenueDetail
 import com.magicbluepenguin.repository.model.VenueListItem
+import com.magicbluepenguin.repository.repositories.SuccessResponse
 import com.magicbluepenguin.repository.repositories.VenueSearchRepository
 import com.magicbluepenguin.utils.test.android.checkTextViewIsDisplayed
 import com.magicbluepenguin.utils.test.android.checkToolbaTitle
@@ -46,7 +46,7 @@ internal class LocationFragmentTest {
     @BindValue
     @JvmField
     val mockLocationSearchRepository: VenueSearchRepository = mockk {
-        coEvery { findVenuesNearLocation(any()) } answers { emptyList() }
+        coEvery { findVenuesNearLocation(any()) } answers { SuccessResponse(emptyList()) }
     }
 
     @get:Rule
@@ -79,7 +79,7 @@ internal class LocationFragmentTest {
         val venueAddress = "Address Line 1\nAddress Line 1\nAddress Line 1"
 
         coEvery { mockLocationSearchRepository.findVenuesNearLocation(any()) } answers {
-            listOf(VenueListItem("abc", venueName, venueAddress))
+            SuccessResponse(listOf(VenueListItem("abc", venueName, venueAddress)))
         }
 
         submitSearch("Random")
@@ -94,7 +94,7 @@ internal class LocationFragmentTest {
         val locationId = "loc_id"
 
         coEvery { mockLocationSearchRepository.findVenuesNearLocation(any()) } answers {
-            listOf(VenueListItem(locationId, "", ""))
+            SuccessResponse(listOf(VenueListItem(locationId, "", "")))
         }
 
         val name = "Venue name"
@@ -104,14 +104,16 @@ internal class LocationFragmentTest {
         val rating = 4.7
 
         coEvery { mockLocationSearchRepository.getVenueDetails(any()) } answers {
-            VenueDetail(
-                "",
-                name,
-                description,
-                SizablePhotos(emptyList()),
-                formattedPhoneNumber,
-                address,
-                rating
+            SuccessResponse(
+                VenueDetail(
+                    "",
+                    name,
+                    description,
+                    emptyList(),
+                    formattedPhoneNumber,
+                    address,
+                    rating
+                )
             )
         }
         submitSearch(locationQuery)
@@ -130,9 +132,9 @@ internal class LocationFragmentTest {
         assertTrue(displayingChildFragments.first() is VenueDetailFragment)
 
         checkToolbaTitle(R.id.toolbar, name)
-        checkTextViewIsDisplayed(R.id.venueAddress, address)
-        checkTextViewIsDisplayed(R.id.venuePhoneNumber, formattedPhoneNumber)
-        checkTextViewIsDisplayed(R.id.venueRating, activity!!.resources.getString(R.string.venue_rating_sf, rating))
+        checkTextViewIsDisplayed(R.id.venue_address, address)
+        checkTextViewIsDisplayed(R.id.venue_phone_number, formattedPhoneNumber)
+        checkTextViewIsDisplayed(R.id.venue_rating, activity!!.resources.getString(R.string.venue_rating_sf, rating))
 
         coVerifySequence {
             mockLocationSearchRepository.findVenuesNearLocation(locationQuery)

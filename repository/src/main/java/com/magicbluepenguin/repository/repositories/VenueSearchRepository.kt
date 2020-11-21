@@ -11,11 +11,13 @@ import com.magicbluepenguin.repository.model.VenueListItem
 import com.squareup.moshi.Moshi
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.io.IOException
 
 interface VenueSearchRepository {
-    suspend fun findVenuesNearLocation(location: String): List<VenueListItem>
 
-    suspend fun getVenueDetails(venueId: String): VenueDetail?
+    suspend fun findVenuesNearLocation(location: String): RepositoryResponse<List<VenueListItem>>
+
+    suspend fun getVenueDetails(venueId: String): RepositoryResponse<VenueDetail?>
 }
 
 class RetrofitVenueSearchRepository(
@@ -29,19 +31,27 @@ class RetrofitVenueSearchRepository(
 
     private val venueSearchDao by lazy { getVenueSearchDao(context) }
 
-    override suspend fun findVenuesNearLocation(location: String): List<VenueListItem> {
-        val venues = retrofitServiceWrapper.getVenueSearchApiWrapper().listVenues(location)
-        venueSearchDao.insertVenuesForQuery(location, venues)
-        return venueSearchDao.getVenuesWithQuery(location).venueListItems
+    override suspend fun findVenuesNearLocation(location: String): RepositoryResponse<List<VenueListItem>> {
+        try {
+            val venues = retrofitServiceWrapper.getVenueSearchApiWrapper().listVenues(location)
+            venueSearchDao.insertVenuesForQuery(location, venues)
+            return SuccessResponse(venueSearchDao.getVenuesWithQuery(location)?.venueListItems)
+        } catch (e: IOException) {
+            return ErrorResponse(venueSearchDao.getVenuesWithQuery(location)?.venueListItems)
+        }
     }
 
-    override suspend fun getVenueDetails(venueId: String): VenueDetail? {
-        val venueDetail = retrofitServiceWrapper.getVenueSearchApiWrapper().getVenueDetails(venueId)
-        if (venueDetail != null) {
-            venueSearchDao.insertVenueDetails(venueDetail)
-            return venueSearchDao.getVenueDetails(venueId)
+    override suspend fun getVenueDetails(venueId: String): RepositoryResponse<VenueDetail?> {
+        try {
+            val venueDetail = retrofitServiceWrapper.getVenueSearchApiWrapper().getVenueDetails(venueId)
+            if (venueDetail != null) {
+                venueSearchDao.insertVenueDetails(venueDetail)
+            }
+            return SuccessResponse(venueSearchDao.getVenueDetails(venueId))
+
+        } catch (e: IOException) {
+            return ErrorResponse(venueSearchDao.getVenueDetails(venueId))
         }
-        return null
     }
 
 

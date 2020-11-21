@@ -35,7 +35,7 @@
                 android:layout_marginTop="@dimen/margin_standard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/venue_images_recyclerView" />
+                app:layout_constraintTop_toBottomOf="@id/venue_photo_pager" />
 
             <TextView
                 android:id="@+id/venue_address"

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.magicbluepenguin.repository.model.VenueListItem
+import com.magicbluepenguin.repository.repositories.RepositoryResponse
 import com.magicbluepenguin.repository.repositories.VenueSearchRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,7 +14,7 @@ internal class VenueSearchViewModel @ViewModelInject constructor(private val ven
 
     var searchQuery: String? = null
 
-    val venuesLiveData = MutableLiveData<List<VenueListItem>>()
+    val venuesLiveData = MutableLiveData<RepositoryResponse<List<VenueListItem>>>()
 
     fun submitSearch() {
         viewModelScope.launch(Dispatchers.IO) {

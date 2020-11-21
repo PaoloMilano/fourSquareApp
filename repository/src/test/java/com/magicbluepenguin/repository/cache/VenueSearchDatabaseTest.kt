@@ -2,7 +2,7 @@ package com.magicbluepenguin.repository.cache
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.magicbluepenguin.repository.model.SizablePhotos
+import com.magicbluepenguin.repository.model.SizablePhoto
 import com.magicbluepenguin.repository.model.VenueDetail
 import com.magicbluepenguin.repository.model.VenueListItem
 import junit.framework.Assert
@@ -30,8 +30,8 @@ class VenueSearchDatabaseTest {
         database.locationSearchDao().insertVenuesForQuery(expectedQuery, expectedVenues)
         val venuesForQuery = database.locationSearchDao().getVenuesWithQuery(expectedQuery)
 
-        assertEquals(expectedVenues, venuesForQuery.venueListItems.sortedBy { it.id })
-        assertEquals(expectedQuery, venuesForQuery.query.query)
+        assertEquals(expectedVenues, venuesForQuery?.venueListItems?.sortedBy { it.id })
+        assertEquals(expectedQuery, venuesForQuery?.query?.query)
     }
 
     @Test
@@ -46,7 +46,7 @@ class VenueSearchDatabaseTest {
         database.locationSearchDao().insertVenues(listOf(updateVenue))
 
         val venuesForQuery = database.locationSearchDao().getVenuesWithQuery(expectedQuery)
-        Assert.assertEquals(updateVenue, venuesForQuery.venueListItems.first())
+        Assert.assertEquals(updateVenue, venuesForQuery?.venueListItems?.first())
     }
 
     @Test
@@ -56,7 +56,7 @@ class VenueSearchDatabaseTest {
             venueId,
             "Venue 1",
             "desc",
-            SizablePhotos(listOf("photo 1", "Photo 2")),
+            listOf(SizablePhoto("photo 1"), SizablePhoto("Photo 2")),
             "address 1",
             "06234567",
             3.2
@@ -74,7 +74,7 @@ class VenueSearchDatabaseTest {
             venueId,
             "Venue 1",
             "desc",
-            SizablePhotos(listOf("photo 1", "Photo 2")),
+            listOf(SizablePhoto("photo 1"), SizablePhoto("Photo 2")),
             "address 1",
             "06234567",
             3.2
@@ -83,7 +83,7 @@ class VenueSearchDatabaseTest {
             venueId,
             "Venue 123",
             "desc",
-            SizablePhotos(listOf("photo 123", "Photo 245")),
+            listOf(SizablePhoto("photo 1"), SizablePhoto("Photo 2")),
             "address 3",
             "062397567",
             4.2

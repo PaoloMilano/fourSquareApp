@@ -9,8 +9,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.magicbluepenguin.foursquareapp.R
 import com.magicbluepenguin.foursquareapp.databinding.FragmentVenueDetailBinding
+import com.magicbluepenguin.repository.model.VenueDetail
+import com.magicbluepenguin.repository.repositories.ErrorResponse
+import com.magicbluepenguin.repository.repositories.SuccessResponse
+import com.magicbluepenguin.utils.extensions.doOnNetworkAvailable
 import com.magicbluepenguin.utils.extensions.setSupportActionBar
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 internal class VenueDetailFragment : Fragment() {
@@ -32,19 +37,33 @@ internal class VenueDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setSupportActionBar(binding.appBar.toolbar).apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowTitleEnabled(false)
+        with(binding.appBar.toolbar) {
+            setNavigationOnClickListener { requireActivity().onBackPressed() }
+            setSupportActionBar(this).apply {
+                setDisplayHomeAsUpEnabled(true)
+                setDisplayShowTitleEnabled(false)
+            }
+        }
+
+        fun showVenueDetails(venueDetail: VenueDetail) {
+            binding.appBar.toolbar.title = venueDetail.name
+            binding.venuePhoneNumber.text = venueDetail.formattedPhoneNumber
+            binding.venueAddress.text = venueDetail.address
+            binding.venueRating.text = requireActivity().resources?.getString(R.string.venue_rating_sf, venueDetail.rating)
+            binding.venuePhotoPager.adapter = VenuePhotosAdapter(venueDetail.photos)
         }
 
         viewModel.venuesLiveData.observe(viewLifecycleOwner) {
-            it?.run {
-                binding.appBar.toolbar.title = name
-                binding.venuePhoneNumber.text = formattedPhoneNumber
-                binding.venueAddress.text = address
-                binding.venueRating.text = requireActivity().resources?.getString(R.string.venue_rating_sf, rating)
-
-                binding.venuePhotoPager.adapter = VenuePhotosAdapter(it.photos)
+            when (it) {
+                is SuccessResponse -> it.data
+                is ErrorResponse -> {
+                    doOnNetworkAvailable {
+                        viewModel.fetchDetailsForVenue(args.venueId)
+                    }
+                    it.data
+                }
+            }?.let {
+                showVenueDetails(it)
             }
         }
         viewModel.fetchDetailsForVenue(args.venueId)

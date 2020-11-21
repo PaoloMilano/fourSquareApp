@@ -13,7 +13,7 @@ internal interface VenueSearchDao {
 
     @Transaction
     @Query("SELECT * FROM QueryModel WHERE `query` = :searchQuery")
-    suspend fun getVenuesWithQuery(searchQuery: String): QueryWithLocations
+    suspend fun getVenuesWithQuery(searchQuery: String): QueryWithLocations?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertQuery(queryModel: QueryModel)

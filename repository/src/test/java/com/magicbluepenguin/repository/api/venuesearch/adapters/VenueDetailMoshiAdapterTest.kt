@@ -1,6 +1,6 @@
 package com.magicbluepenguin.repository.api.venuesearch.adapters
 
-import com.magicbluepenguin.repository.model.SizablePhotos
+import com.magicbluepenguin.repository.model.SizablePhoto
 import com.magicbluepenguin.repository.model.VenueDetail
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -39,7 +39,7 @@ internal class VenueDetailMoshiAdapterTest {
             venueId,
             venueName,
             description,
-            SizablePhotos(listOf("prefix%dx%dsuffix")),
+            listOf(SizablePhoto("prefix%dx%dsuffix")),
             phoneNumber,
             venueAddress.joinToString(separator = "\n"),
             rating

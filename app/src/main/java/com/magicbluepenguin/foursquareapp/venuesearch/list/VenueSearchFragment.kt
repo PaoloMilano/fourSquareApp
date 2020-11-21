@@ -15,6 +15,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.magicbluepenguin.foursquareapp.R
 import com.magicbluepenguin.foursquareapp.databinding.FragmentVenueSearchBinding
+import com.magicbluepenguin.repository.repositories.ErrorResponse
+import com.magicbluepenguin.repository.repositories.SuccessResponse
+import com.magicbluepenguin.utils.extensions.doOnNetworkAvailable
+import com.magicbluepenguin.utils.extensions.isNetworkAvailable
 import com.magicbluepenguin.utils.extensions.setSupportActionBar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,6 +41,7 @@ internal class VenueSearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setHasOptionsMenu(true)
         setSupportActionBar(binding.appBar.toolbar).apply {
             setDisplayShowTitleEnabled(false)
@@ -60,7 +65,19 @@ internal class VenueSearchFragment : Fragment() {
         }
 
         viewModel.venuesLiveData.observe(viewLifecycleOwner) {
-            venueListAdapter.updateData(it)
+            when (it) {
+                is SuccessResponse -> it.data
+                is ErrorResponse -> {
+                    if (!requireContext().isNetworkAvailable()) {
+                        doOnNetworkAvailable {
+                            viewModel.submitSearch()
+                        }
+                    }
+                    it.data
+                }
+            }?.let {
+                venueListAdapter.updateData(it)
+            }
         }
     }
 
@@ -83,6 +100,7 @@ internal class VenueSearchFragment : Fragment() {
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     viewModel.searchQuery = query?.toString()
+                    (binding.searchResultsRecyclerView.adapter as VenueListAdapter).updateData(emptyList())
                     return true
                 }
             })
