@@ -12,5 +12,5 @@ data class VenueDetail(
     val photos: SizeablePhotos,
     val formattedPhoneNumber: String,
     val address: String,
-    val rating: Float
+    val rating: Double
 )

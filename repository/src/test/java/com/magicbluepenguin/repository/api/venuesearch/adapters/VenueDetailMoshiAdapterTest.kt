@@ -16,20 +16,19 @@ internal class VenueDetailMoshiAdapterTest {
         val photoSuffix = "suffix"
         val venueAddress = listOf("Line1", "Line2", "Line3")
         val phoneNumber = "0612345678"
-        val rating = 8.3F
+        val rating = 8.3
 
         val photoList = listOf(mapOf("prefix" to photoPrefix, "suffix" to photoSuffix))
         val photoItemsList = listOf(mapOf("items" to photoList))
         val groups = mapOf("groups" to photoItemsList)
         val contactObject = mapOf("formattedPhone" to phoneNumber)
         val locationObject = mapOf("formattedAddress" to venueAddress)
-        val ratingObject = mapOf("rating" to rating)
 
         val venueMap = mapOf(
             "id" to venueId,
             "name" to venueName,
             "description" to description,
-            "rating" to ratingObject,
+            "rating" to rating,
             "photos" to groups,
             "contact" to contactObject,
             "location" to locationObject

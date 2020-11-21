@@ -17,14 +17,13 @@ fun Map<String, Any?>.toVenueDetails(): VenueDetail {
     fun Map<String, Any?>.toFormattedPhoneNumber() = (this["contact"] as? Map<String, String>)?.get("formattedPhone") ?: ""
     fun Map<String, Any?>.toLocation() = this["location"] as? Map<String, Any?> ?: emptyMap()
     fun Map<String, Any?>.toFormattedAddress() = (this["formattedAddress"] as? List<String> ?: emptyList()).joinToString(separator = "\n")
-    fun Map<String, Any?>.toRating() = (this["rating"] as? Map<String, Float>)?.get("rating") ?: 0F
 
     val venueId = this["id"]?.toString() ?: ""
     val venueName = this["name"]?.toString() ?: ""
     val description = this["description"]?.toString() ?: ""
+    val rating = this["rating"] as? Double ?: 0.0
     val address = toLocation().toFormattedAddress()
     val phoneNumber = toFormattedPhoneNumber()
-    val rating = toRating()
     val photos = toSizeablePhotos()
     return VenueDetail(venueId, venueName, description, SizeablePhotos(photos), phoneNumber, address, rating)
 }

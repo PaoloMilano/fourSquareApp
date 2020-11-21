@@ -10,7 +10,6 @@ import androidx.test.espresso.matcher.ViewMatchers.hasFocus
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
@@ -18,8 +17,12 @@ import androidx.test.runner.lifecycle.Stage
 import com.magicbluepenguin.foursquareapp.application.ApiConfigModule
 import com.magicbluepenguin.foursquareapp.application.MainActivity
 import com.magicbluepenguin.foursquareapp.venuesearch.detail.VenueDetailFragment
+import com.magicbluepenguin.repository.model.SizeablePhotos
+import com.magicbluepenguin.repository.model.VenueDetail
 import com.magicbluepenguin.repository.model.VenueListItem
 import com.magicbluepenguin.repository.repositories.VenueSearchRepository
+import com.magicbluepenguin.utils.test.android.checkTextViewIsDisplayed
+import com.magicbluepenguin.utils.test.android.checkToolbaTitle
 import com.magicbluepenguin.utils.test.android.typeSearchViewText
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -54,6 +57,7 @@ internal class LocationFragmentTest {
     @Test
     fun search_view_loses_focus_on_submit() {
         val expectedSearchQuery = "random search"
+
         val searchViewInteraction = onView(
             allOf(
                 withId(R.id.search),
@@ -78,29 +82,10 @@ internal class LocationFragmentTest {
             listOf(VenueListItem("abc", venueName, venueAddress))
         }
 
-        onView(
-            allOf(
-                withId(R.id.search),
-                withParent(withParent(withId(R.id.toolbar))),
-                isDisplayed(),
-            )
-        ).perform(
-            typeSearchViewText("Randomcity", true),
-        )
+        submitSearch("Random")
 
-        onView(
-            allOf(
-                withId(R.id.venue_name),
-                withText(venueName)
-            )
-        ).check(matches(isDisplayed()))
-
-        onView(
-            allOf(
-                withId(R.id.venue_location),
-                withText(venueAddress),
-            )
-        ).check(matches(isDisplayed()))
+        checkTextViewIsDisplayed(R.id.venue_name, venueName)
+        checkTextViewIsDisplayed(R.id.venue_location, venueAddress)
     }
 
     @Test
@@ -111,8 +96,51 @@ internal class LocationFragmentTest {
         coEvery { mockLocationSearchRepository.findVenuesNearLocation(any()) } answers {
             listOf(VenueListItem(locationId, "", ""))
         }
-        coEvery { mockLocationSearchRepository.getVenueDetails(any()) } answers { mockk() }
 
+        val name = "Venue name"
+        val description = "Venue desc"
+        val formattedPhoneNumber = "062345678"
+        val address = "Venue address"
+        val rating = 4.7
+
+        coEvery { mockLocationSearchRepository.getVenueDetails(any()) } answers {
+            VenueDetail(
+                "",
+                name,
+                description,
+                SizeablePhotos(emptyList()),
+                formattedPhoneNumber,
+                address,
+                rating
+            )
+        }
+        submitSearch(locationQuery)
+
+
+        onView(withId(R.id.searchResultsRecyclerView))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+
+        var activity: AppCompatActivity? = null
+        getInstrumentation().runOnMainSync {
+            activity = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED).elementAtOrNull(0) as AppCompatActivity
+        }
+
+        val displayingChildFragments = activity!!.supportFragmentManager.fragments[0].childFragmentManager.fragments
+        assertEquals(1, displayingChildFragments.size)
+        assertTrue(displayingChildFragments.first() is VenueDetailFragment)
+
+        checkToolbaTitle(R.id.toolbar, name)
+        checkTextViewIsDisplayed(R.id.venueAddress, address)
+        checkTextViewIsDisplayed(R.id.venuePhoneNumber, formattedPhoneNumber)
+        checkTextViewIsDisplayed(R.id.venueRating, activity!!.resources.getString(R.string.venue_rating_sf, rating))
+
+        coVerifySequence {
+            mockLocationSearchRepository.findVenuesNearLocation(locationQuery)
+            mockLocationSearchRepository.getVenueDetails(locationId)
+        }
+    }
+
+    private fun submitSearch(locationQuery: String) {
         onView(
             allOf(
                 withId(R.id.search),
@@ -122,20 +150,5 @@ internal class LocationFragmentTest {
         ).perform(
             typeSearchViewText(locationQuery, true),
         )
-
-        onView(withId(R.id.searchResultsRecyclerView))
-            .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-
-        getInstrumentation().runOnMainSync {
-            val activity = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED).elementAtOrNull(0) as AppCompatActivity
-            val displayingChildFragments = activity.supportFragmentManager.fragments[0].childFragmentManager.fragments
-
-            assertEquals(1, displayingChildFragments.size)
-            assertTrue(displayingChildFragments.first() is VenueDetailFragment)
-        }
-        coVerifySequence {
-            mockLocationSearchRepository.findVenuesNearLocation(locationQuery)
-            mockLocationSearchRepository.getVenueDetails(locationId)
-        }
     }
 }

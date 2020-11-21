@@ -1,5 +1,6 @@
 <resources>
     <dimen name="venue_item_height">150dp</dimen>
+    <dimen name="venue_image_carousel_height">300dp</dimen>
     <dimen name="margin_standard">16dp</dimen>
     <dimen name="margin_half">8dp</dimen>
 </resources>

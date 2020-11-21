@@ -59,7 +59,7 @@ class VenueSearchDatabaseTest {
             SizeablePhotos(listOf("photo 1", "Photo 2")),
             "address 1",
             "06234567",
-            3.2f
+            3.2
         )
         database.locationSearchDao().insertVenueDetails(expectedVenueDetails)
 
@@ -77,7 +77,7 @@ class VenueSearchDatabaseTest {
             SizeablePhotos(listOf("photo 1", "Photo 2")),
             "address 1",
             "06234567",
-            3.2f
+            3.2
         )
         val updatedVenueDetails = VenueDetail(
             venueId,
@@ -86,7 +86,7 @@ class VenueSearchDatabaseTest {
             SizeablePhotos(listOf("photo 123", "Photo 245")),
             "address 3",
             "062397567",
-            4.2f
+            4.2
         )
 
         database.locationSearchDao().insertVenueDetails(venueDetails)

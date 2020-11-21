@@ -38,7 +38,9 @@ internal class VenueSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        setSupportActionBar(binding.appBar.toolbar)
+        setSupportActionBar(binding.appBar.toolbar).apply {
+            setDisplayShowTitleEnabled(false)
+        }
 
         val venueListAdapter = VenueListAdapter {
             VenueSearchFragmentDirections.showDetail(venueId = it).let {
