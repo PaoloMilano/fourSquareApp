@@ -1,9 +1,9 @@
-package com.magicbluepenguin.repository.api.venuesearch
+package com.magicbluepenguin.repository.api.venuesearch.adapters
 
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 
-internal class VenueMoshiAdapterTest {
+internal class VenueListItemMoshiAdapterTest {
 
     @Test
     fun parse_venue_list_response() {
@@ -19,11 +19,11 @@ internal class VenueMoshiAdapterTest {
             "location" to locationObject
         )
         val venueResponseMap = mapOf("venues" to listOf(venueObject))
-        val venue = VenueMoshiAdapter().fromJson(ResponseHolder(venueResponseMap))
+        val venue = VenueListItemMoshiAdapter.fromJson(ResponseHolder(venueResponseMap))
 
         assertEquals(1, venue.size)
         assertEquals(id, venue[0].id)
         assertEquals(vanueName, venue[0].name)
-        assertEquals(formmatedAddressObject.joinToString(separator = "\n"), venue[0].location)
+        assertEquals(formmatedAddressObject.joinToString(separator = "\n"), venue[0].address)
     }
 }

@@ -10,6 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.magicbluepenguin.foursquareapp.R
@@ -37,10 +38,13 @@ internal class VenueSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.appBar.toolbar)
 
-
-        val venueListAdapter = VenueListAdapter()
+        val venueListAdapter = VenueListAdapter {
+            VenueSearchFragmentDirections.showDetail(venueId = it).let {
+                findNavController().navigate(it)
+            }
+        }
 
         binding.searchResultsRecyclerView.apply {
             adapter = venueListAdapter

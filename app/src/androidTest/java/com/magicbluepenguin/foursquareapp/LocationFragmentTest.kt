@@ -9,7 +9,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.activityScenarioRule
 import com.magicbluepenguin.foursquareapp.application.ApiConfigModule
-import com.magicbluepenguin.repository.model.Venue
+import com.magicbluepenguin.foursquareapp.application.MainActivity
+import com.magicbluepenguin.repository.model.VenueListItem
 import com.magicbluepenguin.repository.repositories.VenueSearchRepository
 import com.magicbluepenguin.utils.test.android.typeSearchViewText
 import dagger.hilt.android.testing.BindValue
@@ -63,7 +64,7 @@ internal class LocationFragmentTest {
         val venueAddress = "Address Line 1\nAddress Line 1\nAddress Line 1"
 
         coEvery { mockLocationSearchRepository.findVenuesNearLocation(any()) } answers {
-            listOf(Venue("abc", venueName, venueAddress))
+            listOf(VenueListItem("abc", venueName, venueAddress))
         }
 
         onView(

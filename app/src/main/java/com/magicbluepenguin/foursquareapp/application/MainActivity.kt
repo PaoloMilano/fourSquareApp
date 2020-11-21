@@ -1,6 +1,7 @@
-package com.magicbluepenguin.foursquareapp
+package com.magicbluepenguin.foursquareapp.application
 
 import androidx.appcompat.app.AppCompatActivity
+import com.magicbluepenguin.foursquareapp.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

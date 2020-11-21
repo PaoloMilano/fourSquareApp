@@ -4,7 +4,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.magicbluepenguin.repository.api.RetrofitServiceWrapper
 import com.magicbluepenguin.repository.api.venuesearch.VenueSearchApiWrapper
 import com.magicbluepenguin.repository.cache.VenueSearchDao
-import com.magicbluepenguin.repository.model.Venue
+import com.magicbluepenguin.repository.model.VenueListItem
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
@@ -37,7 +37,7 @@ class RetrofitVenueSearchRepositoryTest {
         } answers { mockRetrofitServiceWrapper }
         every { RetrofitVenueSearchRepository.Companion.getVenueSearchDao(any()) } answers { mockVenueSearchDao }
         coEvery { mockVenueSearchDao.getVenuesWithQuery(any()) } answers {
-            mockk { every { venues } answers { emptyList() } }
+            mockk { every { venueListItems } answers { emptyList() } }
         }
 
         venueSearchRepository = RetrofitVenueSearchRepository(ApplicationProvider.getApplicationContext(), "http://base.nl", "123", "abc")
@@ -50,7 +50,7 @@ class RetrofitVenueSearchRepositoryTest {
 
     @Test
     fun `venue items are cached before being returned`() = runBlockingTest {
-        val venuesList = listOf<Venue>(mockk(), mockk(), mockk())
+        val venuesList = listOf<VenueListItem>(mockk(), mockk(), mockk())
         coEvery { mockSearchApiWrapper.listVenues(any()) } answers { venuesList }
 
         val queryLocatiopn = "Amsterdam"

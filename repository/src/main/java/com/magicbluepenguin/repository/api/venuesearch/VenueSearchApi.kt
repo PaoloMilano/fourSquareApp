@@ -1,7 +1,9 @@
 package com.magicbluepenguin.repository.api.venuesearch
 
-import com.magicbluepenguin.repository.model.Venue
+import com.magicbluepenguin.repository.model.VenueDetail
+import com.magicbluepenguin.repository.model.VenueListItem
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 internal interface VenueSearchApi {
@@ -20,5 +22,17 @@ internal interface VenueSearchApi {
         limit: Int,
         @Query("v")
         version: String
-    ): List<Venue>
+    ): List<VenueListItem>
+
+    @GET("v2/venues/{venueId}")
+    suspend fun venueDetails(
+        @Path("venueId")
+        venueId: String,
+        @Query("client_id")
+        clientId: String,
+        @Query("client_secret")
+        clientSecret: String,
+        @Query("v")
+        version: String
+    ): VenueDetail?
 }

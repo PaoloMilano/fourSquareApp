@@ -13,8 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FourSquareApp">
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main2"
+            android:name=".application.MainActivity"
             android:theme="@style/Theme.FourSquareApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
