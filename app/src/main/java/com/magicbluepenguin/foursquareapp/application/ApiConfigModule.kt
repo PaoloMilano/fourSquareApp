@@ -1,8 +1,8 @@
 package com.magicbluepenguin.foursquareapp.application
 
 import android.content.Context
-import com.magicbluepenguin.repository.repositories.RetrofitVenueSearchRepository
 import com.magicbluepenguin.repository.repositories.VenueSearchRepository
+import com.magicbluepenguin.repository.repositories.getCachedVenueSearchRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,5 +19,5 @@ object ApiConfigModule {
 
     @Provides
     fun provideVenueSearchRepository(@ApplicationContext context: Context): VenueSearchRepository =
-        RetrofitVenueSearchRepository(context, baseApiUrl, clientKey, clientSecret)
+        getCachedVenueSearchRepository(context, baseApiUrl, clientKey, clientSecret)
 }

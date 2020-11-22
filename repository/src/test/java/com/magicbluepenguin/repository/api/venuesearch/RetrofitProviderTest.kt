@@ -1,6 +1,6 @@
 package com.magicbluepenguin.repository.api.venuesearch
 
-import com.magicbluepenguin.repository.api.RetrofitServiceWrapper
+import com.magicbluepenguin.repository.api.RetrofitVenueSearchApiWrapper
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
@@ -26,8 +26,7 @@ class RetrofitProviderTest {
             every { create(VenueSearchApi::class.java) } answers { mockLocationApi }
         }
 
-        RetrofitServiceWrapper(mockRetrofit, clientKey, clientSecret)
-            .getVenueSearchApiWrapper()
+        RetrofitVenueSearchApiWrapper(mockRetrofit, clientKey, clientSecret)
             .listVenues(location)
 
         coVerifySequence { mockLocationApi.listVenues(clientKey, clientSecret, location, 1000, 10, "20201118") }

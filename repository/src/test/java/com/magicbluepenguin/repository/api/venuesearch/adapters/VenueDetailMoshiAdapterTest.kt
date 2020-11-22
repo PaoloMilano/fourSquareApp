@@ -39,7 +39,7 @@ internal class VenueDetailMoshiAdapterTest {
             venueId,
             venueName,
             description,
-            listOf(SizablePhoto("prefix%dx%dsuffix")),
+            listOf(SizablePhoto("prefix", "suffix")),
             phoneNumber,
             venueAddress.joinToString(separator = "\n"),
             rating

@@ -15,10 +15,13 @@ internal class VenueSearchViewModel @ViewModelInject constructor(private val ven
     var searchQuery: String? = null
 
     val venuesLiveData = MutableLiveData<RepositoryResponse<List<VenueListItem>>>()
+    val searchInProgressLiveData = MutableLiveData<Boolean>()
 
     fun submitSearch() {
+        searchInProgressLiveData.value = true
         viewModelScope.launch(Dispatchers.IO) {
             searchQuery?.let {
+                searchInProgressLiveData.postValue(false)
                 venuesLiveData.postValue(venueSearchRepository.findVenuesNearLocation(it))
             }
         }

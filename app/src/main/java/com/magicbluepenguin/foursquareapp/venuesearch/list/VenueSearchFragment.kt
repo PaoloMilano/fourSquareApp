@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.magicbluepenguin.foursquareapp.R
 import com.magicbluepenguin.foursquareapp.databinding.FragmentVenueSearchBinding
+import com.magicbluepenguin.repository.model.VenueListItem
 import com.magicbluepenguin.repository.repositories.ErrorResponse
 import com.magicbluepenguin.repository.repositories.SuccessResponse
 import com.magicbluepenguin.utils.extensions.doOnNetworkAvailable
@@ -63,16 +64,26 @@ internal class VenueSearchFragment : Fragment() {
                     }
             })
         }
+        viewModel.searchInProgressLiveData.observe(viewLifecycleOwner) {
+            binding.searchProgress.visibility = if (it) {
+                hideErrors()
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        }
 
         viewModel.venuesLiveData.observe(viewLifecycleOwner) {
+
+            hideErrors()
+
             when (it) {
-                is SuccessResponse -> it.data
+                is SuccessResponse -> {
+                    handleSuccessResponse(it)
+                    it.data
+                }
                 is ErrorResponse -> {
-                    if (!requireContext().isNetworkAvailable()) {
-                        doOnNetworkAvailable {
-                            viewModel.submitSearch()
-                        }
-                    }
+                    handleErrorResponse(it)
                     it.data
                 }
             }?.let {
@@ -105,6 +116,45 @@ internal class VenueSearchFragment : Fragment() {
                 }
             })
         }
+    }
+
+    private fun handleSuccessResponse(successResponse: SuccessResponse<List<VenueListItem>>) {
+        if (successResponse.data.isNullOrEmpty()) {
+            showNoResultsError()
+        }
+    }
+
+    private fun handleErrorResponse(errorResponse: ErrorResponse<List<VenueListItem>>) {
+        if (!requireContext().isNetworkAvailable()) {
+            if (errorResponse.data.isNullOrEmpty()) {
+                binding.networkErrorText.setText(R.string.venue_search_internet_connection_error)
+            } else {
+                binding.networkErrorText.setText(R.string.venue_search_internet_connection_error_with_results)
+            }
+            showNetworkError()
+            doOnNetworkAvailable {
+                viewModel.submitSearch()
+            }
+        } else {
+            if (errorResponse.data.isNullOrEmpty()) {
+                showNoResultsError()
+            }
+        }
+    }
+
+    private fun hideErrors() {
+        binding.networkErrorText.visibility = View.GONE
+        binding.noResultsText.visibility = View.GONE
+    }
+
+    private fun showNetworkError() {
+        binding.networkErrorText.visibility = View.VISIBLE
+        binding.noResultsText.visibility = View.GONE
+    }
+
+    private fun showNoResultsError() {
+        binding.networkErrorText.visibility = View.GONE
+        binding.noResultsText.visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {

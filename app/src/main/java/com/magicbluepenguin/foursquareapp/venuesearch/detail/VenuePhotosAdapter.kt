@@ -10,7 +10,6 @@ import com.magicbluepenguin.repository.model.SizablePhoto
 import com.magicbluepenguin.utils.extensions.heightDP
 import com.magicbluepenguin.utils.extensions.widthDP
 
-
 internal class VenuePhotosAdapter(private val sizablePhotos: List<SizablePhoto>) : PagerAdapter() {
     override fun getCount(): Int = sizablePhotos.size
 

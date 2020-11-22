@@ -40,9 +40,11 @@ android {
 }
 
 dependencies {
+
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     // Older kapt version needed to inject ViewModels
     kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
@@ -65,11 +67,9 @@ dependencies {
 
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
     androidTestImplementation project(":utils_test_android")
-
-    testImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
-    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 }
 
 kapt {
+    // Currently needed by Hilt
     correctErrorTypes true
 }

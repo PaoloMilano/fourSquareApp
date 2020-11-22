@@ -27,7 +27,11 @@ fun Fragment.doOnNetworkAvailable(action: () -> Unit) {
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         fun onDestroy() {
             networkChangeReceiver.onNetworkAvailableListener = null
-            requireContext().unregisterReceiver(networkChangeReceiver)
+            try {
+                requireContext().unregisterReceiver(networkChangeReceiver)
+            } catch (e: IllegalArgumentException) {
+                // Ignore exception in case receiver has already been unregistered
+            }
         }
     })
 

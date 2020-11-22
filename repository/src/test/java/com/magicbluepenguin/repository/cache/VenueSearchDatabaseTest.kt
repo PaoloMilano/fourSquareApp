@@ -56,7 +56,7 @@ class VenueSearchDatabaseTest {
             venueId,
             "Venue 1",
             "desc",
-            listOf(SizablePhoto("photo 1"), SizablePhoto("Photo 2")),
+            listOf(SizablePhoto("prefix1", "suffix1"), SizablePhoto("prefix2", "suffix2")),
             "address 1",
             "06234567",
             3.2
@@ -74,7 +74,7 @@ class VenueSearchDatabaseTest {
             venueId,
             "Venue 1",
             "desc",
-            listOf(SizablePhoto("photo 1"), SizablePhoto("Photo 2")),
+            listOf(SizablePhoto("prefix1", "suffix1"), SizablePhoto("prefix2", "suffix2")),
             "address 1",
             "06234567",
             3.2
@@ -83,7 +83,7 @@ class VenueSearchDatabaseTest {
             venueId,
             "Venue 123",
             "desc",
-            listOf(SizablePhoto("photo 1"), SizablePhoto("Photo 2")),
+            listOf(SizablePhoto("prefix1", "suffix1"), SizablePhoto("prefix2", "suffix2")),
             "address 3",
             "062397567",
             4.2

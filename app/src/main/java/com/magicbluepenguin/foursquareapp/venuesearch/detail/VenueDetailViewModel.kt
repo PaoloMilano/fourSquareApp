@@ -13,9 +13,12 @@ import kotlinx.coroutines.launch
 internal class VenueDetailViewModel @ViewModelInject constructor(private val venueSearchRepository: VenueSearchRepository) : ViewModel() {
 
     val venuesLiveData = MutableLiveData<RepositoryResponse<VenueDetail?>>()
+    val searchInProgressLiveData = MutableLiveData<Boolean>()
 
     fun fetchDetailsForVenue(venueId: String) {
+        searchInProgressLiveData.value = true
         viewModelScope.launch(Dispatchers.IO) {
+            searchInProgressLiveData.postValue(false)
             venuesLiveData.postValue(venueSearchRepository.getVenueDetails(venueId))
         }
     }

@@ -17,14 +17,15 @@ abstract class VenueSearchDatabase : RoomDatabase() {
 class SizeableImageConverter {
 
     companion object {
-        private const val SEPARATOR = "##"
+        private const val COMPONENTS_SEPARATOR = "#_#"
+        private const val ENTITY_SEPARATOR = "#_#_#"
     }
 
     @TypeConverter
     fun fromList(value: List<SizablePhoto>): String {
-        return value.map { it.photoUrl }.joinToString(separator = SEPARATOR)
+        return value.map { "${it.photoPrefix}$COMPONENTS_SEPARATOR${it.photoSuffix}" }.joinToString(separator = ENTITY_SEPARATOR)
     }
 
     @TypeConverter
-    fun toSizeableImages(data: String) = data.split(SEPARATOR).map { SizablePhoto(it) }
+    fun toSizeableImages(data: String) = data.split(ENTITY_SEPARATOR).map { it.split(COMPONENTS_SEPARATOR) }.map { SizablePhoto(it[0], it[1]) }
 }

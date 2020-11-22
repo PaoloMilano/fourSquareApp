@@ -32,8 +32,8 @@ private fun Map<String, Any?>.toSizeablePhotos(): List<SizablePhoto> {
     fun Map<String, Any?>.toPhotosObject() = this["photos"] as? Map<String, Any?>
     fun Map<String, Any?>.toGroupsObject() = this["groups"] as? List<Map<String, Any?>>
     fun List<Map<String, Any?>>.toItemsObject() = map { it["items"] as? List<Map<String, Any?>> }
-    fun List<Map<String, Any?>>.toPhotoUrls() = map { "${it["prefix"]}%dx%d${it["suffix"]}" }
+    fun List<Map<String, Any?>>.toPhotoUrls() = map { it["prefix"].toString() to it["suffix"].toString() }
     val urlList = toPhotosObject()?.toGroupsObject()?.toItemsObject()?.flatMap { it?.toPhotoUrls() ?: emptyList() } ?: emptyList()
-    return urlList.map { SizablePhoto(it) }
+    return urlList.map { SizablePhoto(it.first, it.second) }
 }
 

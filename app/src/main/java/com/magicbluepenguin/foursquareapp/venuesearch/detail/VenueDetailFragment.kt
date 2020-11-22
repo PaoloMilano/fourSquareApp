@@ -13,6 +13,7 @@ import com.magicbluepenguin.repository.model.VenueDetail
 import com.magicbluepenguin.repository.repositories.ErrorResponse
 import com.magicbluepenguin.repository.repositories.SuccessResponse
 import com.magicbluepenguin.utils.extensions.doOnNetworkAvailable
+import com.magicbluepenguin.utils.extensions.isNetworkAvailable
 import com.magicbluepenguin.utils.extensions.setSupportActionBar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,10 +39,10 @@ internal class VenueDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding.appBar.toolbar) {
-            setNavigationOnClickListener { requireActivity().onBackPressed() }
             setSupportActionBar(this).apply {
                 setDisplayHomeAsUpEnabled(true)
                 setDisplayShowTitleEnabled(false)
+                setNavigationOnClickListener { requireActivity().onBackPressed() }
             }
         }
 
@@ -53,13 +54,21 @@ internal class VenueDetailFragment : Fragment() {
             binding.venuePhotoPager.adapter = VenuePhotosAdapter(venueDetail.photos)
         }
 
+        viewModel.searchInProgressLiveData.observe(viewLifecycleOwner) {
+            binding.detailProgress.visibility = if (it) {
+                hideErrors()
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        }
+
         viewModel.venuesLiveData.observe(viewLifecycleOwner) {
+            hideErrors()
             when (it) {
                 is SuccessResponse -> it.data
                 is ErrorResponse -> {
-                    doOnNetworkAvailable {
-                        viewModel.fetchDetailsForVenue(args.venueId)
-                    }
+                    handleErrorResponse(it)
                     it.data
                 }
             }?.let {
@@ -68,6 +77,40 @@ internal class VenueDetailFragment : Fragment() {
         }
         viewModel.fetchDetailsForVenue(args.venueId)
     }
+
+    private fun handleErrorResponse(errorResponse: ErrorResponse<VenueDetail?>) {
+        if (!requireContext().isNetworkAvailable()) {
+            if (errorResponse.data != null) {
+                binding.networkErrorText.setText(R.string.venue_detail_internet_connection_error_with_result)
+            } else {
+                binding.networkErrorText.setText(R.string.venue_detail_internet_connection_error)
+            }
+            showNetworkError()
+            doOnNetworkAvailable {
+                viewModel.fetchDetailsForVenue(args.venueId)
+            }
+        } else {
+            if (errorResponse.data == null) {
+                showGenericError()
+            }
+        }
+    }
+
+    private fun hideErrors() {
+        binding.networkErrorText.visibility = View.GONE
+        binding.noResultsText.visibility = View.GONE
+    }
+
+    private fun showNetworkError() {
+        binding.networkErrorText.visibility = View.VISIBLE
+        binding.noResultsText.visibility = View.GONE
+    }
+
+    private fun showGenericError() {
+        binding.networkErrorText.visibility = View.GONE
+        binding.noResultsText.visibility = View.VISIBLE
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

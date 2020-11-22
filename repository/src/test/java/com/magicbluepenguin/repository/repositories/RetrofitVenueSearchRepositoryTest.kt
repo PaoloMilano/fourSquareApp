@@ -1,8 +1,7 @@
 package com.magicbluepenguin.repository.repositories
 
 import androidx.test.core.app.ApplicationProvider
-import com.magicbluepenguin.repository.api.RetrofitServiceWrapper
-import com.magicbluepenguin.repository.api.venuesearch.VenueSearchApiWrapper
+import com.magicbluepenguin.repository.api.RetrofitVenueSearchApiWrapper
 import com.magicbluepenguin.repository.cache.VenueSearchDao
 import com.magicbluepenguin.repository.model.VenueListItem
 import io.mockk.coEvery
@@ -22,19 +21,16 @@ import org.robolectric.RobolectricTestRunner
 class RetrofitVenueSearchRepositoryTest {
 
     private val mockVenueSearchDao = mockk<VenueSearchDao>(relaxed = true)
-    private val mockSearchApiWrapper = mockk<VenueSearchApiWrapper>()
+    private val mockSearchApiWrapper = mockk<RetrofitVenueSearchApiWrapper>()
 
     private lateinit var venueSearchRepository: RetrofitVenueSearchRepository
 
     @Before
     fun setUp() {
         mockkObject(RetrofitVenueSearchRepository.Companion)
-
-        val mockRetrofitServiceWrapper = mockk<RetrofitServiceWrapper>()
-        every { mockRetrofitServiceWrapper.getVenueSearchApiWrapper() } answers { mockSearchApiWrapper }
         every {
             RetrofitVenueSearchRepository.Companion.getRetrofitServiceWrapperRetrofitServiceWrapper(any(), any(), any())
-        } answers { mockRetrofitServiceWrapper }
+        } answers { mockSearchApiWrapper }
         every { RetrofitVenueSearchRepository.Companion.getVenueSearchDao(any()) } answers { mockVenueSearchDao }
         coEvery { mockVenueSearchDao.getVenuesWithQuery(any()) } answers {
             mockk { every { venueListItems } answers { emptyList() } }
