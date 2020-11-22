@@ -24,11 +24,11 @@ fun Map<String, Any?>.toVenueDetails(): VenueDetail {
     val rating = this["rating"] as? Double ?: 0.0
     val address = toLocation().toFormattedAddress()
     val phoneNumber = toFormattedPhoneNumber()
-    val photos = toSizeablePhotos()
+    val photos = toSizablePhotos()
     return VenueDetail(venueId, venueName, description, photos, phoneNumber, address, rating)
 }
 
-private fun Map<String, Any?>.toSizeablePhotos(): List<SizablePhoto> {
+private fun Map<String, Any?>.toSizablePhotos(): List<SizablePhoto> {
     fun Map<String, Any?>.toPhotosObject() = this["photos"] as? Map<String, Any?>
     fun Map<String, Any?>.toGroupsObject() = this["groups"] as? List<Map<String, Any?>>
     fun List<Map<String, Any?>>.toItemsObject() = map { it["items"] as? List<Map<String, Any?>> }
