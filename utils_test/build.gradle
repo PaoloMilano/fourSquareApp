@@ -9,13 +9,10 @@ android {
 }
 
 dependencies {
-    def androidXJUnit = "1.1.2"
-    api "androidx.test.ext:junit-ktx:$androidXJUnit"
-    api "androidx.test.ext:junit:$androidXJUnit"
-
-    api "io.mockk:mockk:1.10.2"
-    api 'org.robolectric:robolectric:4.4'
-    api "androidx.test:core:1.3.0"
-
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.1'
+    api deps.androidXJUnit
+    api deps.androidXTestCore
+    api deps.mockk
+    api deps.robolectric
+    api deps.androidXTestCore
+    api deps.coroutinedTest
 }

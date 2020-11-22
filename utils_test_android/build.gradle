@@ -10,15 +10,11 @@ android {
 }
 
 dependencies {
-    def androidXJUnit = "1.1.2"
-    api "androidx.test.ext:junit-ktx:$androidXJUnit"
-    api "androidx.test.ext:junit:$androidXJUnit"
-
-    api "com.google.dagger:hilt-android-testing:$hilt_version"
-
-    def espressoVersion = "3.3.0"
-    api "androidx.test.espresso:espresso-core:$espressoVersion"
-    api "androidx.test.espresso:espresso-contrib:$espressoVersion"
-
-    api "io.mockk:mockk-android:1.10.2"
+    api deps.androidXJUnit
+    api deps.androidXJUnitKtx
+    api deps.androidXTestCore
+    api deps.hiltTesting
+    api deps.espresso
+    api deps.espressoContrib
+    api deps.mockkAndroid
 }
