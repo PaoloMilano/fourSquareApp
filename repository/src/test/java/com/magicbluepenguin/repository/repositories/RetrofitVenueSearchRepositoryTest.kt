@@ -2,14 +2,15 @@ package com.magicbluepenguin.repository.repositories
 
 import com.magicbluepenguin.repository.api.RetrofitVenueSearchApiWrapper
 import com.magicbluepenguin.repository.cache.VenueSearchDao
+import com.magicbluepenguin.repository.model.VenueDetail
 import com.magicbluepenguin.repository.model.VenueListItem
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.unmockkAll
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.fail
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,22 +33,71 @@ class RetrofitVenueSearchRepositoryTest {
         venueSearchRepository = RetrofitVenueSearchRepository(mockVenueSearchDao, mockSearchApiWrapper)
     }
 
-    @After
-    fun tearDown() {
-        unmockkAll()
-    }
-
     @Test
     fun `venue items are cached before being returned`() = runBlockingTest {
-        val venuesList = listOf<VenueListItem>(mockk(), mockk(), mockk())
-        coEvery { mockSearchApiWrapper.listVenues(any()) } answers { venuesList }
-
         val queryLocatiopn = "Amsterdam"
+
+        val mockVenuesList = mockk<List<VenueListItem>>()
+        coEvery { mockSearchApiWrapper.listVenues(queryLocatiopn) } answers { mockVenuesList }
+
         venueSearchRepository.findVenuesNearLocation(queryLocatiopn)
 
         coVerifySequence {
-            mockVenueSearchDao.insertVenuesForQuery(queryLocatiopn, venuesList)
+            mockVenueSearchDao.insertVenuesForQuery(queryLocatiopn, mockVenuesList)
             mockVenueSearchDao.getVenuesWithQuery(queryLocatiopn)
+        }
+    }
+
+    @Test
+    fun `venue detail object is cached before being returned`() = runBlockingTest {
+        val venueId = "random_id"
+
+        val mockVenuesDetail = mockk<VenueDetail>()
+        coEvery { mockSearchApiWrapper.getVenueDetails(venueId) } answers { mockVenuesDetail }
+
+        venueSearchRepository.getVenueDetails(venueId)
+
+        coVerifySequence {
+            mockVenueSearchDao.insertVenueDetails(mockVenuesDetail)
+            mockVenueSearchDao.getVenueDetails(venueId)
+        }
+    }
+
+    @Test
+    fun `error list response is returned from cache in case of exception`() = runBlockingTest {
+        val queryLocatiopn = "Amsterdam"
+
+        val mockVenuesList = mockk<List<VenueListItem>>()
+        coEvery { mockVenueSearchDao.getVenuesWithQuery(queryLocatiopn) } answers {
+            mockk {
+                every { venueListItems } answers { mockVenuesList }
+            }
+        }
+        coEvery { mockSearchApiWrapper.listVenues(queryLocatiopn) } throws Exception()
+
+        val result = venueSearchRepository.findVenuesNearLocation(queryLocatiopn)
+
+        if (result is ErrorResponse) {
+            assertEquals(mockVenuesList, result.data)
+        } else {
+            fail("Error not returned from failed request")
+        }
+    }
+
+    @Test
+    fun `error detail response is returned from cache in case of exception`() = runBlockingTest {
+        val venueId = "random_id"
+
+        val mockVenuesDetail = mockk<VenueDetail>()
+        coEvery { mockVenueSearchDao.getVenueDetails(venueId) } answers { mockVenuesDetail }
+        coEvery { mockSearchApiWrapper.getVenueDetails(venueId) } throws Exception()
+
+        val result = venueSearchRepository.getVenueDetails(venueId)
+
+        if (result is ErrorResponse) {
+            assertEquals(mockVenuesDetail, result.data)
+        } else {
+            fail("Error not returned from failed request")
         }
     }
 }
