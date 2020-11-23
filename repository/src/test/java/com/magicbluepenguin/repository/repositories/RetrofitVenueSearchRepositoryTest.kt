@@ -1,6 +1,5 @@
 package com.magicbluepenguin.repository.repositories
 
-import androidx.test.core.app.ApplicationProvider
 import com.magicbluepenguin.repository.api.RetrofitVenueSearchApiWrapper
 import com.magicbluepenguin.repository.cache.VenueSearchDao
 import com.magicbluepenguin.repository.model.VenueListItem
@@ -8,7 +7,6 @@ import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -27,16 +25,11 @@ class RetrofitVenueSearchRepositoryTest {
 
     @Before
     fun setUp() {
-        mockkObject(RetrofitVenueSearchRepository.Companion)
-        every {
-            RetrofitVenueSearchRepository.Companion.getRetrofitServiceWrapperRetrofitServiceWrapper(any(), any(), any())
-        } answers { mockSearchApiWrapper }
-        every { RetrofitVenueSearchRepository.Companion.getVenueSearchDao(any()) } answers { mockVenueSearchDao }
         coEvery { mockVenueSearchDao.getVenuesWithQuery(any()) } answers {
             mockk { every { venueListItems } answers { emptyList() } }
         }
 
-        venueSearchRepository = RetrofitVenueSearchRepository(ApplicationProvider.getApplicationContext(), "http://base.nl", "123", "abc")
+        venueSearchRepository = RetrofitVenueSearchRepository(mockVenueSearchDao, mockSearchApiWrapper)
     }
 
     @After
