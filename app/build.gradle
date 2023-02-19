@@ -2,18 +2,19 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
-    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.dagger.hilt.android'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     buildToolsVersion "30.0.0"
+    namespace 'com.magicbluepenguin.foursquareapp'
 
     defaultConfig {
         applicationId "com.magicbluepenguin.foursquareapp"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
@@ -37,6 +38,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
@@ -44,9 +49,6 @@ dependencies {
     kapt deps.hiltCompiler
     kaptTest deps.hiltCompiler
     kaptAndroidTest deps.hiltCompiler
-
-    kapt deps.hiltCompilerViewModel
-    implementation deps.hiltViewModel
 
     implementation deps.glide
     kapt deps.glideCompiler
@@ -66,7 +68,7 @@ dependencies {
     androidTestImplementation project(":utils_test_android")
 }
 
+// Needed by Hilt to allow references to generated code
 kapt {
-    // Currently needed by Hilt
     correctErrorTypes true
 }

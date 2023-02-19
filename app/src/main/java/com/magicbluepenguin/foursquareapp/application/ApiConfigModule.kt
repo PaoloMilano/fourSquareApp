@@ -6,11 +6,12 @@ import com.magicbluepenguin.repository.repositories.getCachedVenueSearchReposito
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(ViewModelComponent::class)
 object ApiConfigModule {
 
     val baseApiUrl = "https://api.foursquare.com/"
@@ -18,6 +19,7 @@ object ApiConfigModule {
     val clientSecret = "1M4K24DIQDK0HA3SG0N3HBQVHBJEG14UPN5OANYMWSN533NB"
 
     @Provides
+    @ViewModelScoped
     fun provideVenueSearchRepository(@ApplicationContext context: Context): VenueSearchRepository =
         getCachedVenueSearchRepository(context, baseApiUrl, clientKey, clientSecret)
 }

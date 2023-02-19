@@ -19,6 +19,7 @@ import com.magicbluepenguin.foursquareapp.venuesearch.detail.VenueDetailFragment
 import com.magicbluepenguin.repository.model.VenueDetail
 import com.magicbluepenguin.repository.model.VenueListItem
 import com.magicbluepenguin.repository.repositories.ErrorResponse
+import com.magicbluepenguin.repository.repositories.FakeVenueSearchRepository
 import com.magicbluepenguin.repository.repositories.SuccessResponse
 import com.magicbluepenguin.repository.repositories.VenueSearchRepository
 import com.magicbluepenguin.utils.extensions.doOnNetworkAvailable
@@ -38,26 +39,23 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.unmockkStatic
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assume.assumeTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 
-@ExperimentalCoroutinesApi
 @HiltAndroidTest
 @UninstallModules(ApiConfigModule::class)
 internal class VenueDetailFragmentTest {
 
     @BindValue
-    @JvmField
-    val mockLocationSearchRepository: VenueSearchRepository = mockk {
+    val mockLocationSearchRepository: VenueSearchRepository = mockk<FakeVenueSearchRepository> {
         coEvery { findVenuesNearLocation(any()) } answers { SuccessResponse(emptyList()) }
     }
     private val fakeVenueItem = VenueListItem(
@@ -172,7 +170,7 @@ internal class VenueDetailFragmentTest {
             // We do this here because the VenueDetailFragment will only be pushed onto the stack after the call to `clickOnFirstListItem()`.
             // At this point however it will immediately perform a call to fetch data so we have to set these mocks between these two events.
             mockkStatic("com.magicbluepenguin.utils.extensions.FragmentExtensionsKt")
-            every { getFragment().doOnNetworkAvailable(any()) } answers { Unit }
+            every { getFragment().doOnNetworkAvailable(any()) } answers { }
             mockkStatic("com.magicbluepenguin.utils.extensions.ContextExtensionsKt")
             every { getFragment().requireContext().isNetworkAvailable() } answers { isNetworkAvailable }
             ErrorResponse(if (hasCachedData) fakeVenueDetail else null)
@@ -203,7 +201,7 @@ internal class VenueDetailFragmentTest {
         }
     }
 
-    fun prepareFakeDetailResponse() {
+    private fun prepareFakeDetailResponse() {
         coEvery { mockLocationSearchRepository.getVenueDetails(any()) } answers {
             SuccessResponse(fakeVenueDetail)
         }

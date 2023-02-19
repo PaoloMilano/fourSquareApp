@@ -1,16 +1,18 @@
 package com.magicbluepenguin.foursquareapp.venuesearch.detail
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.magicbluepenguin.repository.model.VenueDetail
 import com.magicbluepenguin.repository.repositories.RepositoryResponse
 import com.magicbluepenguin.repository.repositories.VenueSearchRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-internal class VenueDetailViewModel @ViewModelInject constructor(private val venueSearchRepository: VenueSearchRepository) : ViewModel() {
+@HiltViewModel
+internal class VenueDetailViewModel @Inject constructor(private val venueSearchRepository: VenueSearchRepository) : ViewModel() {
 
     val venuesLiveData = MutableLiveData<RepositoryResponse<VenueDetail?>>()
     val searchInProgressLiveData = MutableLiveData<Boolean>()

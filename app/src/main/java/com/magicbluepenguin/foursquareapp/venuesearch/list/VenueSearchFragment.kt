@@ -35,7 +35,7 @@ internal class VenueSearchFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentVenueSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -49,7 +49,7 @@ internal class VenueSearchFragment : Fragment() {
         }
 
         val venueListAdapter = VenueListAdapter {
-            VenueSearchFragmentDirections.showDetail(venueId = it).let {
+            VenueSearchFragmentDirections.showDetail(it).let {
                 findNavController().navigate(it)
             }
         }

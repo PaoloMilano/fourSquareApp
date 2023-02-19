@@ -6,6 +6,7 @@ plugins {
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.0"
+    namespace 'com.magicbluepenguin.utile_test'
 }
 
 dependencies {

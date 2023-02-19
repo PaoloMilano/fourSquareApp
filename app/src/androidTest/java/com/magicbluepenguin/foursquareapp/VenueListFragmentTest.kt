@@ -16,6 +16,7 @@ import com.magicbluepenguin.foursquareapp.application.MainActivity
 import com.magicbluepenguin.foursquareapp.util.submitSearch
 import com.magicbluepenguin.repository.model.VenueListItem
 import com.magicbluepenguin.repository.repositories.ErrorResponse
+import com.magicbluepenguin.repository.repositories.FakeVenueSearchRepository
 import com.magicbluepenguin.repository.repositories.SuccessResponse
 import com.magicbluepenguin.repository.repositories.VenueSearchRepository
 import com.magicbluepenguin.utils.extensions.doOnNetworkAvailable
@@ -43,8 +44,7 @@ import org.junit.rules.RuleChain
 internal class VenueListFragmentTest {
 
     @BindValue
-    @JvmField
-    val mockLocationSearchRepository: VenueSearchRepository = mockk {
+    val mockLocationSearchRepository: VenueSearchRepository = mockk<FakeVenueSearchRepository> {
         coEvery { findVenuesNearLocation(any()) } answers { SuccessResponse(emptyList()) }
     }
 
@@ -147,7 +147,7 @@ internal class VenueListFragmentTest {
         }
 
         mockkStatic("com.magicbluepenguin.utils.extensions.FragmentExtensionsKt")
-        every { getFragment().doOnNetworkAvailable(any()) } answers { Unit }
+        every { getFragment().doOnNetworkAvailable(any()) } answers { }
         mockkStatic("com.magicbluepenguin.utils.extensions.ContextExtensionsKt")
         every { getFragment().requireContext().isNetworkAvailable() } answers { isNetworkAvailable }
 
