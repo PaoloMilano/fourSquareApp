@@ -11,10 +11,57 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+
+    versionCatalogs {
+        libs {
+            version("hilt_version", "2.44")
+            version("glide_version", "4.11.0")
+            version("ktx_version", "2.5.3")
+            version("room_version", "2.5.0")
+            version("retrofit_version", "2.9.0")
+            version("androidXJUnit", "1.1.5")
+            version("espressoVersion", "3.5.1")
+            version("mockkVersion", "1.13.4")
+
+            library("hilt-android", "com.google.dagger", "hilt-android").versionRef("hilt_version")
+            library("hilt-compiler", "com.google.dagger", "hilt-compiler").versionRef("hilt_version")
+
+            library("glide", "com.github.bumptech.glide", "glide").versionRef("glide_version")
+            library("glide-compiler", "com.github.bumptech.glide", "compiler").versionRef("glide_version")
+
+            library("android-material", "com.google.android.material:material:1.8.0")
+            library("androidx-core-ktx", "androidx.core:core-ktx:1.9.0")
+            library("androidx-appcompat", "androidx.appcompat:appcompat:1.6.1")
+            library("androidx-constraintlayout", "androidx.constraintlayout:constraintlayout:2.1.4")
+            library("androidx-navigation", "androidx.navigation", "navigation-fragment-ktx").versionRef("ktx_version")
+            library("androidx.navigation-ui", "androidx.navigation", "navigation-ui-ktx").versionRef("ktx_version")
+
+            library("room", "androidx.room", "room-runtime").versionRef("room_version")
+            library("room-compiler", "androidx.room", "room-compiler").versionRef("room_version")
+            library("room-ktx", "androidx.room", "room-ktx").versionRef("room_version")
+            library("room-testing", "androidx.room", "room-testing").versionRef("room_version")
+            library("retrofit", "com.squareup.retrofit2", "retrofit").versionRef("retrofit_version")
+            library("retrofit-moshi", "com.squareup.retrofit2", "converter-moshi").versionRef("retrofit_version")
+
+            library("leakcanary", "com.squareup.leakcanary:leakcanary-android:2.10")
+
+            library("androidx-junit-ext", "androidx.test.ext","junit").versionRef("androidXJUnit")
+            library("androidx-junit-ktx", "androidx.test.ext", "junit-ktx").versionRef("androidXJUnit")
+            library("androidx-text-core", "androidx.test:core:1.5.0")
+            library("mockk", "io.mockk", "mockk").versionRef("mockkVersion")
+            library("mockk-android", "io.mockk","mockk-android").versionRef("mockkVersion")
+            library("robolectric", 'org.robolectric:robolectric:4.9.2')
+            library("coroutines-test", 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4')
+            library("hilt-testing", "com.google.dagger", "hilt-android-testing").versionRef("hilt_version")
+            library("espresso-core", "androidx.test.espresso", "espresso-core").versionRef('espressoVersion')
+            library("espresso-contrib", "androidx.test.espresso", "espresso-contrib").versionRef('espressoVersion')
+
+            bundle('androidTest', ['androidx-junit-ext', 'androidx-junit-ktx', 'androidx-text-core', 'mockk-android', "hilt-testing", 'coroutines-test', "espresso-core", "espresso-contrib"])
+            bundle('test', ['androidx-junit-ext', 'androidx-text-core', 'mockk', 'robolectric', 'coroutines-test', "room-testing"])
+        }
+    }
 }
 
-
-include ':utils_test'
 include ':utils'
 include ':repository'
 include ':utils_test_android'

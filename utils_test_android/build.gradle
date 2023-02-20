@@ -5,17 +5,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    compileSdkVersion 33
     namespace 'com.magicbluepenguin.utils.test.android'
 }
 
 dependencies {
-    api deps.androidXJUnit
-    api deps.androidXJUnitKtx
-    api deps.androidXTestCore
-    api deps.hiltTesting
-    api deps.espresso
-    api deps.espressoContrib
-    api deps.mockkAndroid
+    implementation libs.espresso.core
+    implementation libs.espresso.contrib
+    implementation libs.androidx.appcompat
+    implementation libs.hilt.testing
 }

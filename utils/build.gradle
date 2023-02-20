@@ -4,14 +4,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    compileSdkVersion 33
     namespace 'com.magicbluepenguin.utils'
 }
 
 dependencies {
-    implementation deps.androidXCore
-    implementation deps.androidXAppCompat
-    implementation deps.androidXFragmentKtx
-    implementation deps.androidXAppMaterial
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.navigation
+    implementation libs.android.material
 }

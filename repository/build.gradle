@@ -5,19 +5,17 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    compileSdkVersion 33
     namespace 'com.magicbluepenguin.repository'
 }
 
 dependencies {
-    implementation deps.room
-    kapt deps.roomCompiler
-    implementation deps.roomKtx
-    testImplementation deps.roomTest
+    implementation libs.room
+    kapt libs.room.compiler
+    implementation libs.room.ktx
 
-    implementation deps.retrofit
-    implementation deps.retrofitMoshi
+    implementation libs.retrofit
+    implementation libs.retrofit.moshi
 
-    testImplementation project(":utils_test")
+    testImplementation libs.bundles.test
 }

@@ -8,7 +8,6 @@ plugins {
 
 android {
     compileSdkVersion 33
-    buildToolsVersion "30.0.0"
     namespace 'com.magicbluepenguin.foursquareapp'
 
     defaultConfig {
@@ -45,27 +44,28 @@ android {
 }
 
 dependencies {
-    implementation deps.hilt
-    kapt deps.hiltCompiler
-    kaptTest deps.hiltCompiler
-    kaptAndroidTest deps.hiltCompiler
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
+    kaptTest libs.hilt.compiler
+    kaptAndroidTest libs.hilt.compiler
 
-    implementation deps.glide
-    kapt deps.glideCompiler
+    implementation libs.glide
+    kapt libs.glide.compiler
 
-    implementation deps.androidXCore
-    implementation deps.androidXAppCompat
-    implementation deps.androidXAppMaterial
-    implementation deps.androidXConstLayout
-    implementation deps.androidXFragmentKtx
-    implementation deps.androidXNavigationKtx
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.android.material
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.navigation
+    implementation libs.androidx.navigation.ui
 
-    debugImplementation deps.leakCanary
+    debugImplementation libs.leakcanary
 
     implementation project(":repository")
     implementation project(":utils")
 
     androidTestImplementation project(":utils_test_android")
+    androidTestImplementation libs.bundles.androidTest
 }
 
 // Needed by Hilt to allow references to generated code

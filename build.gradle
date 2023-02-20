@@ -13,51 +13,6 @@ plugins {
     id 'com.google.dagger.hilt.android' version '2.44' apply false
 }
 
-def hilt_version = "2.44"
-def glide_version = "4.11.0"
-def ktx_version = "2.5.3"
-def room_version = "2.5.0"
-def retrofit_version = "2.9.0"
-def androidXJUnit = "1.1.5"
-def espressoVersion = "3.5.1"
-def mockkVersion = "1.13.4"
-
-ext.deps = [
-        hilt                 : "com.google.dagger:hilt-android:$hilt_version",
-        hiltCompiler         : "com.google.dagger:hilt-compiler:$hilt_version",
-        hiltTesting          : "com.google.dagger:hilt-android-testing:$hilt_version",
-
-        glide                : "com.github.bumptech.glide:glide:$glide_version",
-        glideCompiler        : "com.github.bumptech.glide:compiler:$glide_version",
-
-        androidXCore         : "androidx.core:core-ktx:1.9.0",
-        androidXAppCompat    : "androidx.appcompat:appcompat:1.6.1",
-        androidXAppMaterial  : "com.google.android.material:material:1.8.0",
-        androidXConstLayout  : "androidx.constraintlayout:constraintlayout:2.1.4",
-        androidXFragmentKtx  : "androidx.navigation:navigation-fragment-ktx:$ktx_version",
-        androidXNavigationKtx: "androidx.navigation:navigation-ui-ktx:$ktx_version",
-
-        androidXTestCore     : "androidx.test:core:1.5.0",
-        androidXJUnit        : "androidx.test.ext:junit:$androidXJUnit",
-        androidXJUnitKtx     : "androidx.test.ext:junit-ktx:$androidXJUnit",
-        coroutinedTest       : 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4',
-        mockk                : "io.mockk:mockk:$mockkVersion",
-        mockkAndroid         : "io.mockk:mockk-android:$mockkVersion",
-        robolectric          : 'org.robolectric:robolectric:4.9.2',
-        espresso             : "androidx.test.espresso:espresso-core:$espressoVersion",
-        espressoContrib      : "androidx.test.espresso:espresso-contrib:$espressoVersion",
-
-
-        room                 : "androidx.room:room-runtime:$room_version",
-        roomCompiler         : "androidx.room:room-compiler:$room_version",
-        roomKtx              : "androidx.room:room-ktx:$room_version",
-        roomTest             : "androidx.room:room-testing:$room_version",
-        retrofit             : "com.squareup.retrofit2:retrofit:$retrofit_version",
-        retrofitMoshi        : "com.squareup.retrofit2:converter-moshi:$retrofit_version",
-
-        leakCanary           : "com.squareup.leakcanary:leakcanary-android:2.10",
-]
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
