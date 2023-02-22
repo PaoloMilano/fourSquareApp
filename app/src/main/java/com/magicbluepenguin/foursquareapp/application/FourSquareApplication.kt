@@ -4,4 +4,4 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class FourSquareApplication : Application()
+internal class FourSquareApplication : Application()

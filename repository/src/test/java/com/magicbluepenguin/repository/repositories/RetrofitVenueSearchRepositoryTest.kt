@@ -1,7 +1,7 @@
 package com.magicbluepenguin.repository.repositories
 
 import com.magicbluepenguin.repository.api.RetrofitVenueSearchApiWrapper
-import com.magicbluepenguin.repository.cache.VenueSearchDao
+import com.magicblueopenguin.cache.cache.venuesearch.datasource.VenueSearchDao
 import com.magicbluepenguin.repository.model.VenueDetail
 import com.magicbluepenguin.repository.model.VenueListItem
 import io.mockk.coEvery

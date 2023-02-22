@@ -21,7 +21,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding true
+        compose true
     }
 
     buildTypes {
@@ -49,9 +49,7 @@ dependencies {
     kaptTest libs.hilt.compiler
     kaptAndroidTest libs.hilt.compiler
 
-    implementation libs.glide
-    kapt libs.glide.compiler
-
+    implementation libs.bundles.compose
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.android.material
@@ -62,6 +60,7 @@ dependencies {
     debugImplementation libs.leakcanary
 
     implementation project(":repository")
+    implementation project(":entities")
     implementation project(":utils")
 
     androidTestImplementation project(":utils_test_android")

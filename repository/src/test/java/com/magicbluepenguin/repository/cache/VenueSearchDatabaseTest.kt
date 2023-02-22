@@ -2,6 +2,7 @@ package com.magicbluepenguin.repository.cache
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import com.magicblueopenguin.cache.cache.venuesearch.datasource.VenueSearchDatabase
 import com.magicbluepenguin.repository.model.SizablePhoto
 import com.magicbluepenguin.repository.model.VenueDetail
 import com.magicbluepenguin.repository.model.VenueListItem

@@ -12,10 +12,9 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.activityScenarioRule
-import com.magicbluepenguin.foursquareapp.application.ApiConfigModule
+import com.magicbluepenguin.foursquareapp.application.AppModule
 import com.magicbluepenguin.foursquareapp.application.MainActivity
 import com.magicbluepenguin.foursquareapp.util.submitSearch
-import com.magicbluepenguin.foursquareapp.venuesearch.detail.VenueDetailFragment
 import com.magicbluepenguin.repository.model.VenueDetail
 import com.magicbluepenguin.repository.model.VenueListItem
 import com.magicbluepenguin.repository.repositories.ErrorResponse
@@ -51,7 +50,7 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 
 @HiltAndroidTest
-@UninstallModules(ApiConfigModule::class)
+@UninstallModules(AppModule::class)
 internal class VenueDetailFragmentTest {
 
     @BindValue

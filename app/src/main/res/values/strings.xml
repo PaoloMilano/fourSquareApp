@@ -5,9 +5,27 @@
     <string name="location_search_title">search</string>
     <string name="venue_rating_sf">Rating: %.1f</string>
 
+    <string name="search_placeholder">Search a location</string>
+
+    <string name="no_results_yet_message">No results yet</string>
+    <string name="no_results_found_message">No results found</string>
+
     <string name="venue_search_no_items_error">No items were found for this location.</string>
-    <string name="venue_search_internet_connection_error">No internet connection. We\'ll try again as soon connectivity is restored.</string>
+    <string name="venue_search_internet_connection_error">No internet connection. We\'ll update the results as soon connectivity is restored.</string>
+    <string name="venue_search_server_error">No internet connection. We\'ll try again as soon connectivity is restored.</string>
     <string name="venue_search_internet_connection_error_with_results">No internet connection. We\'ll update your results as soon connectivity is restored.</string>
+
+    <string name="venue_details_available_with_error">There was a problem fetching your data. This information might not be accurate.</string>
+    <string name="venue_details_unavailable_with_error">There was a problem fetching your data. Try again later.</string>
+    <string name="venue_details_unavailable">This venue was not found.</string>
+
+    <string name="placeholder_image_content_description">Placeholder image</string>
+    <string name="venue_image_content_description">Image of %s</string>
+
+    <string name="venue_name">Name:</string>
+    <string name="venue_description">Description:</string>
+    <string name="venue_address">Address:</string>
+    <string name="venue_formattedPhoneNumber">Phone Number:</string>
 
     <string name="venue_detail_generic_error">We could not retrieve this venue. Please try again later.</string>
     <string name="venue_detail_internet_connection_error">No internet connection. We\'ll try again as soon connectivity is restored.</string>
