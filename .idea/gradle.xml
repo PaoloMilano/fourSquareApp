@@ -12,12 +12,17 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/cache" />
-            <option value="$PROJECT_DIR$/entities" />
-            <option value="$PROJECT_DIR$/network" />
-            <option value="$PROJECT_DIR$/repository" />
-            <option value="$PROJECT_DIR$/utils" />
-            <option value="$PROJECT_DIR$/utils_test_android" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/cache" />
+            <option value="$PROJECT_DIR$/core/entities" />
+            <option value="$PROJECT_DIR$/core/network" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/venuesearch" />
+            <option value="$PROJECT_DIR$/repositories" />
+            <option value="$PROJECT_DIR$/repositories/venuesearch" />
+            <option value="$PROJECT_DIR$/shared" />
+            <option value="$PROJECT_DIR$/shared/composables" />
+            <option value="$PROJECT_DIR$/shared/utils" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -1,0 +1,26 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+}
+
+android {
+    compileSdkVersion 33
+    namespace 'com.magicbluepenguin.network'
+}
+
+dependencies {
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
+    kaptTest libs.hilt.compiler
+    kaptAndroidTest libs.hilt.compiler
+
+    implementation libs.androidx.core.ktx
+    implementation libs.retrofit
+    implementation libs.retrofit.moshi
+
+    implementation project(":core::entities")
+
+    testImplementation libs.bundles.test
+}

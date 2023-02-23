@@ -1,0 +1,18 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion 33
+    namespace 'com.magicbluepenguin.shared.composables'
+
+    buildFeatures {
+        compose true
+    }
+}
+
+dependencies {
+    implementation libs.bundles.compose
+}

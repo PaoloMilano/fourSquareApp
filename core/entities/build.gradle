@@ -1,0 +1,14 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdkVersion 33
+    namespace 'com.magicbluepenguin.entities'
+}
+
+dependencies {
+    implementation libs.androidx.core.ktx
+    testImplementation libs.bundles.test
+}

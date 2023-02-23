@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
@@ -8,26 +8,20 @@ plugins {
 
 android {
     compileSdkVersion 33
-    namespace 'com.magicbluepenguin.foursquareapp'
+    namespace 'com.magicbluepenguin.venuesearch'
 
     defaultConfig {
-        applicationId "com.magicbluepenguin.foursquareapp"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures {
         compose true
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -44,8 +38,6 @@ android {
 dependencies {
     implementation libs.hilt.android
     kapt libs.hilt.compiler
-    kaptTest libs.hilt.compiler
-    kaptAndroidTest libs.hilt.compiler
 
     implementation libs.bundles.compose
     implementation libs.androidx.core.ktx
@@ -54,9 +46,12 @@ dependencies {
     implementation libs.androidx.navigation
     implementation libs.androidx.navigation.ui
 
-    debugImplementation libs.leakcanary
+    implementation project(":shared:utils")
+    implementation project(":shared:composables")
+    implementation project(':repositories:venuesearch')
+    implementation project(":core:entities")
 
-    implementation project(":features:venuesearch")
+    androidTestImplementation libs.bundles.androidTest
 }
 
 // Needed by Hilt to allow references to generated code

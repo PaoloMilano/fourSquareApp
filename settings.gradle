@@ -35,7 +35,6 @@ dependencyResolutionManagement {
             library('android-material', 'com.google.android.material:material:1.8.0')
             library('androidx-core-ktx', 'androidx.core:core-ktx:1.9.0')
             library('androidx-appcompat', 'androidx.appcompat:appcompat:1.6.1')
-            library('androidx-constraintlayout', 'androidx.constraintlayout:constraintlayout:2.1.4')
             library('androidx-navigation', 'androidx.navigation', 'navigation-fragment-ktx').versionRef('ktxVersion')
             library('androidx.navigation-ui', 'androidx.navigation', 'navigation-ui-ktx').versionRef('ktxVersion')
 
@@ -65,22 +64,26 @@ dependencyResolutionManagement {
             library('mockk-android', 'io.mockk', 'mockk-android').versionRef('mockkVersion')
             library('robolectric', 'org.robolectric:robolectric:4.9.2')
             library('coroutines-test', 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4')
-            library('hilt-testing', 'com.google.dagger', 'hilt-android-testing').versionRef('hiltVersion')
             library('espresso-core', 'androidx.test.espresso', 'espresso-core').versionRef('espressoVersion')
             library('espresso-contrib', 'androidx.test.espresso', 'espresso-contrib').versionRef('espressoVersion')
 
             bundle('compose', ['hilt-navigation-compose', 'material3', 'compose-ui', 'coil', 'coil-compose', 'compose-ui-preview', 'compose-ui-tooling', 'compose-ui-manifest', 'compose-activity'])
-            bundle('androidTest', ['androidx-junit-ext', 'androidx-junit-ktx', 'androidx-text-core', 'mockk-android', 'hilt-testing', 'coroutines-test', 'espresso-core', 'espresso-contrib'])
+            bundle('androidTest', ['androidx-junit-ext', 'androidx-junit-ktx', 'androidx-text-core', 'mockk-android', 'coroutines-test', 'compose-ui-junit', 'espresso-core', 'espresso-contrib'])
             bundle('test', ['androidx-junit-ext', 'androidx-text-core', 'mockk', 'robolectric', 'coroutines-test', 'room-testing'])
         }
     }
 }
 
 rootProject.name = 'FourSquareApp'
-include ':utils'
-include ':repository'
-include ':utils_test_android'
 include ':app'
-include ':network'
-include ':entities'
-include ':cache'
+include ':core'
+include ':core:network'
+include ':core:entities'
+include ':core:cache'
+include ':features'
+include ':features:venuesearch'
+include ':repositories'
+include ':repositories:venuesearch'
+include ':shared'
+include ':shared:utils'
+include ':shared:composables'
